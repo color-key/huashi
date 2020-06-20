@@ -1,12 +1,14 @@
 package com.huashi.framework.core.service.impl;
 
 //import com.fy.framework.core.annotation.IDGeneratorTable;
+import com.huashi.framework.core.annotation.IDGeneratorTable;
 import com.huashi.framework.core.converter.BaseConverter;
 import com.huashi.framework.core.dao.BaseDAO;
 import com.huashi.framework.core.dto.BaseDTO;
 import com.huashi.framework.core.entity.BaseEntity;
 import com.huashi.framework.core.entity.ModifiedEntity;
 //import com.fy.framework.core.idg.IDGenerator;
+import com.huashi.framework.core.idg.IDGenerator;
 import com.huashi.framework.core.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -15,6 +17,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 //import java.util.UUID;
 
 /**
@@ -87,5 +90,9 @@ public class BaseServiceImpl<T extends BaseEntity<I>,D extends BaseDTO,I extends
 
     public DAO getDAO() {
         return dao;
+    }
+
+    public C getConverter(){
+        return converter;
     }
 }

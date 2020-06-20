@@ -1,7 +1,7 @@
 package com.huashi.dao.plus.impl;
 
-import com.huashi.dao.plus.UserDAOPlus;
-import com.huashi.entity.User;
+import com.huashi.dao.plus.ManagerDAOPlus;
+import com.huashi.entity.Manager;
 import com.huashi.framework.core.dao.impl.BaseDAOImpl;
 
 import javax.persistence.Query;
@@ -13,11 +13,11 @@ import java.util.Map;
  * @author xiaoyu
  * @data 2020/6/2.
  */
-public class UserDAOImpl extends BaseDAOImpl implements UserDAOPlus {
+public class ManagerDAOImpl extends BaseDAOImpl implements ManagerDAOPlus {
 
     @Override
-    public User login(String loginName, String password) {
-        StringBuilder sb = new StringBuilder("from User user where 1=1");
+    public Manager login(String loginName, String password) {
+        StringBuilder sb = new StringBuilder("from Manager user where 1=1");
         sb.append(" {and {user.mailbox = :mailbox}}");
         sb.append(" {and {user.password = :password}}");
 
@@ -26,7 +26,7 @@ public class UserDAOImpl extends BaseDAOImpl implements UserDAOPlus {
         params.put("password", password);
 
         Query query = buildQuery(sb, params, false);
-        List<User> accounts = query.getResultList();
+        List<Manager> accounts = query.getResultList();
         if(accounts!=null && accounts.size()>0){
             return accounts.iterator().next();
         }

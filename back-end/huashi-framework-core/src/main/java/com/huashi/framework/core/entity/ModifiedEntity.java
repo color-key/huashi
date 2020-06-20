@@ -1,5 +1,6 @@
 package com.huashi.framework.core.entity;
 
+import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.io.Serializable;
@@ -9,6 +10,7 @@ import java.util.Date;
  * @author xiaoyu
  * @data 2020/5/31.
  */
+@MappedSuperclass
 public class ModifiedEntity<I extends Serializable> extends BaseEntity<I> {
 
     private static final long serialVersionUID = 5331070750058990002L;

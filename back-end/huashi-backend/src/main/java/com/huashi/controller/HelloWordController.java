@@ -1,8 +1,8 @@
 package com.huashi.controller;
 
-import com.huashi.dto.UserDTO;
+import com.huashi.dto.ManagerDTO;
 import com.huashi.entity.HelloWord;
-import com.huashi.service.UserService;
+import com.huashi.service.ManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 public class HelloWordController {
 
     @Autowired
-    private UserService userService;
+    private ManagerService managerService;
 
     @RequestMapping("/say")
     public String say(){
@@ -34,8 +34,8 @@ public class HelloWordController {
     }
 
     @RequestMapping("/find")
-    public UserDTO find(final HttpServletRequest request){
-        UserDTO dto = userService.findOne(1L);
+    public ManagerDTO find(final HttpServletRequest request){
+        ManagerDTO dto = managerService.findOne(1L);
 
         return dto;
     }

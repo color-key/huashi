@@ -1,7 +1,7 @@
 package com.huashi.config;
 
 import com.alibaba.fastjson.JSON;
-import com.huashi.entity.User;
+import com.huashi.entity.Manager;
 import com.huashi.framework.core.code.ResponseEnum;
 import com.huashi.framework.core.redis.RedisKeyConstant;
 import com.huashi.framework.core.redis.RedisService;
@@ -26,8 +26,8 @@ public class AuthTokenInterceptor extends HandlerInterceptorAdapter {
 
     private Logger logger = LogManager.getLogger(AuthTokenInterceptor.class);
 
-//    private static final String LOCAL_IP = "127.0.0.1";
-    private static final String LOCAL_IP = "127.0.0.12";
+    private static final String LOCAL_IP = "127.0.0.1";
+//    private static final String LOCAL_IP = "127.0.0.12";
 
     private static final List<String> WHITE_URL_LIST = Arrays.asList("/login");
 
@@ -53,7 +53,7 @@ public class AuthTokenInterceptor extends HandlerInterceptorAdapter {
         }
         String tokenKey = RequestUtils.getHeader(AUTH_TOKEN_KEY);
         logger.debug("tokenKey:{},url:{},head:{},param:{}",tokenKey, request.getRequestURI(), RequestUtils.getHeader(request), RequestUtils.getParam(request));
-        User user = redisService.get(RedisKeyConstant.CUSTOMER_KEY_PREFIX + "token:" + tokenKey, User.class);
+        Manager user = redisService.get(RedisKeyConstant.CUSTOMER_KEY_PREFIX + "token:" + tokenKey, Manager.class);
 
         if (user == null) {
             ResponseUtils.responseJson(response, JSON.toJSONString(BaseResponse.response().code(ResponseEnum.NO_LOGIN)));

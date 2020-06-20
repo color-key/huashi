@@ -1,7 +1,7 @@
 package com.huashi.converter;
 
-import com.huashi.dto.UserDTO;
-import com.huashi.entity.User;
+import com.huashi.dto.ManagerDTO;
+import com.huashi.entity.Manager;
 import com.huashi.framework.core.converter.BaseConverter;
 import org.springframework.stereotype.Component;
 
@@ -10,24 +10,18 @@ import org.springframework.stereotype.Component;
  * @data 2020/5/31.
  */
 @Component
-public class UserConverter extends BaseConverter<User, UserDTO, Long> {
+public class ManagerConverter extends BaseConverter<Manager, ManagerDTO, Long> {
     @Override
-    public UserDTO toDTO(User user) {
+    public ManagerDTO toDTO(Manager user) {
         if(user == null){
             return null;
         }
-        UserDTO dto = new UserDTO();
+        ManagerDTO dto = new ManagerDTO();
         dto.setId(user.getId());
-        dto.setNickname(user.getNickname());
         dto.setFullName(user.getFullName());
-        dto.setName(user.getName());
+        dto.setUsername(user.getUsername());
         dto.setMobile(user.getMobile());
-        dto.setMailbox(user.getMailbox());
         dto.setPassword(user.getPassword());
-        dto.setRoleId(user.getRoleId());
-        dto.setMFA(user.getMFA());
-        dto.setLastLoginIP(user.getLastLoginIP());
-        dto.setLastLoginTime(user.getLastLoginTime());
         dto.setActiveFlag(user.getActiveFlag());
         dto.setDeletedFlag(user.getDeletedFlag());
         dto.setCreationDatetime(user.getCreationDatetime());
