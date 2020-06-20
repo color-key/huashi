@@ -1,0 +1,16 @@
+{
+  "name": "huashi",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "koa": "^2.12.1",
+    "koa-body": "^4.2.0",
+    "koa-bodyparser": "^4.3.0",
+    "koa-router": "^9.0.1",
+    "koa2-request": "^1.0.4",
+    "mysql": "^2.18.1"
+  }
+}
