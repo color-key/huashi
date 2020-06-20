@@ -27,9 +27,8 @@ public class AuthTokenInterceptor extends HandlerInterceptorAdapter {
     private Logger logger = LogManager.getLogger(AuthTokenInterceptor.class);
 
     private static final String LOCAL_IP = "127.0.0.1";
-//    private static final String LOCAL_IP = "127.0.0.12";
 
-    private static final List<String> WHITE_URL_LIST = Arrays.asList("/login");
+    private static final List<String> WHITE_URL_LIST = Arrays.asList("/login", "test");
 
     private static final String AUTH_TOKEN_KEY = "X-AuthToken";
 

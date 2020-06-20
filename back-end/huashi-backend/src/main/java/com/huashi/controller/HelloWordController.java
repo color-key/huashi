@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
  * @data 2020/5/18.
  */
 @RestController
+@RequestMapping(value = "test")
 public class HelloWordController {
 
     @Autowired
