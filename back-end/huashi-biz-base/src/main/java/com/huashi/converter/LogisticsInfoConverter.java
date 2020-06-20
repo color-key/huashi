@@ -17,6 +17,7 @@ public class LogisticsInfoConverter  extends BaseConverter<LogisticsInfo, Logist
             return null;
         }
         LogisticsInfoDTO dto = new LogisticsInfoDTO();
+        dto.setId(entity.getId());
         dto.setLogisticsNo(entity.getLogisticsNo());
         dto.setOrderNo(entity.getOrderNo());
         dto.setAddress(entity.getAddress());

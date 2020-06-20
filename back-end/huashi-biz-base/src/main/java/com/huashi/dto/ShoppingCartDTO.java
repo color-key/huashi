@@ -42,39 +42,39 @@ public class ShoppingCartDTO extends BaseDTO {
     /**
      * 瞳距
      */
-    private Integer interpupillaryDistance;
+    private String interpupillaryDistance;
     /**
      * 柱镜(右眼)
      */
-    private Float cylMirrorRight;
+    private String cylMirrorRight;
     /**
      * 棱镜(右眼)
      */
-    private Float prismRight;
+    private String prismRight;
     /**
      * 轴向(右眼)
      */
-    private Integer axialRight;
+    private String axialRight;
     /**
      * 点瞳(右眼)
      */
-    private Integer pointPupilRight;
+    private String pointPupilRight;
     /**
      * 柱镜(左眼)
      */
-    private Float cylMirrorLeft;
+    private String cylMirrorLeft;
     /**
      * 棱镜(左眼)
      */
-    private Float prismLeft;
+    private String prismLeft;
     /**
      * 轴向(左眼)
      */
-    private Integer axialLeft;
+    private String axialLeft;
     /**
      * 点瞳(左眼)
      */
-    private Integer pointPupilLeft;
+    private String pointPupilLeft;
 
     public String getWxUserId() {
         return wxUserId;
@@ -132,75 +132,75 @@ public class ShoppingCartDTO extends BaseDTO {
         this.frameModel = frameModel;
     }
 
-    public Integer getInterpupillaryDistance() {
+    public String getInterpupillaryDistance() {
         return interpupillaryDistance;
     }
 
-    public void setInterpupillaryDistance(Integer interpupillaryDistance) {
+    public void setInterpupillaryDistance(String interpupillaryDistance) {
         this.interpupillaryDistance = interpupillaryDistance;
     }
 
-    public Float getCylMirrorRight() {
+    public String getCylMirrorRight() {
         return cylMirrorRight;
     }
 
-    public void setCylMirrorRight(Float cylMirrorRight) {
+    public void setCylMirrorRight(String cylMirrorRight) {
         this.cylMirrorRight = cylMirrorRight;
     }
 
-    public Float getPrismRight() {
+    public String getPrismRight() {
         return prismRight;
     }
 
-    public void setPrismRight(Float prismRight) {
+    public void setPrismRight(String prismRight) {
         this.prismRight = prismRight;
     }
 
-    public Integer getAxialRight() {
+    public String getAxialRight() {
         return axialRight;
     }
 
-    public void setAxialRight(Integer axialRight) {
+    public void setAxialRight(String axialRight) {
         this.axialRight = axialRight;
     }
 
-    public Integer getPointPupilRight() {
+    public String getPointPupilRight() {
         return pointPupilRight;
     }
 
-    public void setPointPupilRight(Integer pointPupilRight) {
+    public void setPointPupilRight(String pointPupilRight) {
         this.pointPupilRight = pointPupilRight;
     }
 
-    public Float getCylMirrorLeft() {
+    public String getCylMirrorLeft() {
         return cylMirrorLeft;
     }
 
-    public void setCylMirrorLeft(Float cylMirrorLeft) {
+    public void setCylMirrorLeft(String cylMirrorLeft) {
         this.cylMirrorLeft = cylMirrorLeft;
     }
 
-    public Float getPrismLeft() {
+    public String getPrismLeft() {
         return prismLeft;
     }
 
-    public void setPrismLeft(Float prismLeft) {
+    public void setPrismLeft(String prismLeft) {
         this.prismLeft = prismLeft;
     }
 
-    public Integer getAxialLeft() {
+    public String getAxialLeft() {
         return axialLeft;
     }
 
-    public void setAxialLeft(Integer axialLeft) {
+    public void setAxialLeft(String axialLeft) {
         this.axialLeft = axialLeft;
     }
 
-    public Integer getPointPupilLeft() {
+    public String getPointPupilLeft() {
         return pointPupilLeft;
     }
 
-    public void setPointPupilLeft(Integer pointPupilLeft) {
+    public void setPointPupilLeft(String pointPupilLeft) {
         this.pointPupilLeft = pointPupilLeft;
     }
 }

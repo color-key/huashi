@@ -40,6 +40,8 @@ public class AuthTokenInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         logger.debug("进入拦截器");
         String serverName = request.getServerName();
+
+
         if (LOCAL_IP.equals(serverName)) {
             return true;
         }

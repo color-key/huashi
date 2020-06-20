@@ -17,6 +17,7 @@ public class WXUserConverter extends BaseConverter<WXUser, WXUserDTO, Long> {
             return null;
         }
         WXUserDTO dto = new WXUserDTO();
+        dto.setId(entity.getId());
         dto.setLoginId(entity.getLoginId());
         dto.setOpenId(entity.getOpenId());
         dto.setPassword(entity.getPassword());

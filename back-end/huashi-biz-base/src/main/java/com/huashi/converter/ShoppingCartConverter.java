@@ -17,6 +17,7 @@ public class ShoppingCartConverter extends BaseConverter<ShoppingCart, ShoppingC
             return null;
         }
         ShoppingCartDTO dto = new ShoppingCartDTO();
+        dto.setId(entity.getId());
         dto.setWxUserId(entity.getWxUserId());
         dto.setOrderNo(entity.getOrderNo());
         dto.setName(entity.getName());

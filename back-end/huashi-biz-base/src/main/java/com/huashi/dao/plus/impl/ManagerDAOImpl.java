@@ -18,11 +18,11 @@ public class ManagerDAOImpl extends BaseDAOImpl implements ManagerDAOPlus {
     @Override
     public Manager login(String loginName, String password) {
         StringBuilder sb = new StringBuilder("from Manager user where 1=1");
-        sb.append(" {and {user.mailbox = :mailbox}}");
+        sb.append(" {and {user.username = :username}}");
         sb.append(" {and {user.password = :password}}");
 
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("mailbox", loginName);
+        params.put("username", loginName);
         params.put("password", password);
 
         Query query = buildQuery(sb, params, false);

@@ -55,6 +55,7 @@ public class LoginServiceimpl implements LoginService {
         param.put("id", manager.getId().toString());
         param.put("username", manager.getUsername());
         param.put("mobile", manager.getMobile());
+        param.put("fullName", manager.getFullName());
         param.put("token", token);
 
         return param;
