@@ -24,6 +24,11 @@ public class WXOrder extends ModifiedEntity<Long> {
      */
     @Column(unique = true, nullable = false, length = 32)
     private String orderNo;
+    private String openId;
+    /**
+     * 客户名字
+     */
+    private String userName;
     /**
      * 订单状态
      * @see OrderStatusEnum
@@ -48,6 +53,22 @@ public class WXOrder extends ModifiedEntity<Long> {
 
     public void setOrderNo(String orderNo) {
         this.orderNo = orderNo;
+    }
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public Integer getSuatus() {

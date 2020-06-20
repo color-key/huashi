@@ -24,6 +24,12 @@ public class PaginatorResult<T> extends AppResult {
         this.totalPages = totalPages;
     }
 
+    public PaginatorResult(List<T> records, long count, int totalPages){
+        this.records = records;
+        this.count = count;
+        this.totalPages = totalPages;
+    }
+
     public long getCount() {
         return count;
     }

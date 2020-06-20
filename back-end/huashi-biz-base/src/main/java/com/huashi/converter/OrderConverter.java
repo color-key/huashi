@@ -20,6 +20,8 @@ public class OrderConverter extends BaseConverter<WXOrder, OrderDTO, Long> {
         OrderDTO dto = new OrderDTO();
         dto.setId(entity.getId());
         dto.setOrderNo(entity.getOrderNo());
+        dto.setOpenId(entity.getOpenId());
+        dto.setUserName(entity.getUserName());
         dto.setSuatus(OrderStatusEnum.getName(entity.getSuatus()));
         dto.setFrameModel(entity.getFrameModel());
         dto.setColorNo(entity.getColorNo());

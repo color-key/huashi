@@ -8,6 +8,8 @@ import com.huashi.framework.core.requestVO.BaseRequestVO;
  */
 public class LogisticsInfoRequestVO extends BaseRequestVO {
     private static final long serialVersionUID = 8995075136430804605L;
+
+    private Long id;
     /**
      * 物流单号
      */
@@ -16,6 +18,10 @@ public class LogisticsInfoRequestVO extends BaseRequestVO {
      * 订单编号
      */
     private String orderNo;
+    /**
+     * 用户信息
+     */
+    private String openId;
     /**
      * 物流地址
      */
@@ -28,6 +34,14 @@ public class LogisticsInfoRequestVO extends BaseRequestVO {
      * 联系电话
      */
     private String contactMobile;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getLogisticsNo() {
         return logisticsNo;
@@ -43,6 +57,14 @@ public class LogisticsInfoRequestVO extends BaseRequestVO {
 
     public void setOrderNo(String orderNo) {
         this.orderNo = orderNo;
+    }
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
     }
 
     public String getAddress() {

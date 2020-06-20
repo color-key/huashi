@@ -41,6 +41,10 @@ public class AuthTokenInterceptor extends HandlerInterceptorAdapter {
         logger.debug("进入拦截器");
         String serverName = request.getServerName();
 
+        // todo 测试阶段默认不拦截
+        if (true){
+            return true;
+        }
 
         if (LOCAL_IP.equals(serverName)) {
             return true;

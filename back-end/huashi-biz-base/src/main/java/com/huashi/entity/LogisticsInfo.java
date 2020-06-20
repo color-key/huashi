@@ -28,6 +28,10 @@ public class LogisticsInfo extends ModifiedEntity<Long> {
      */
     private String orderNo;
     /**
+     * 用户信息
+     */
+    private String openId;
+    /**
      * 物流地址
      */
     private String address;
@@ -54,6 +58,14 @@ public class LogisticsInfo extends ModifiedEntity<Long> {
 
     public void setOrderNo(String orderNo) {
         this.orderNo = orderNo;
+    }
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
     }
 
     public String getAddress() {

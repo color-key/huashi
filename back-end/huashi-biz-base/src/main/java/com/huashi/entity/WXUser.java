@@ -1,5 +1,6 @@
 package com.huashi.entity;
 
+import com.huashi.enumeration.WXUserStatusEnum;
 import com.huashi.framework.core.annotation.IDGeneratorTable;
 import com.huashi.framework.core.entity.ModifiedEntity;
 
@@ -28,11 +29,7 @@ public class WXUser extends ModifiedEntity<Long> {
     @Column(unique = true)
     private String openId;
     /**
-     * 登入密码
-     */
-    private String password;
-    /**
-     * 联系人
+     * 用户名、联系人
      */
     private String name;
     /**
@@ -45,9 +42,14 @@ public class WXUser extends ModifiedEntity<Long> {
      */
     private String store;
     /**
-     * 状态 0:不可以人脸扫码；1:可以人脸扫描
+     * 状态
+     * @see WXUserStatusEnum
      */
     private Integer status;
+    /**
+     * 备注
+     */
+    private String remark;
 
     public String getLoginId() {
         return loginId;
@@ -63,14 +65,6 @@ public class WXUser extends ModifiedEntity<Long> {
 
     public void setOpenId(String openId) {
         this.openId = openId;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getName() {
@@ -103,5 +97,13 @@ public class WXUser extends ModifiedEntity<Long> {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

@@ -3,6 +3,8 @@ package com.huashi.dto;
 import com.huashi.framework.core.dto.BaseDTO;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * @author xiaoyu
  * @data 2020/6/20.
@@ -13,6 +15,11 @@ public class OrderDTO extends BaseDTO {
      * 订单编号
      */
     private String orderNo;
+    private String openId;
+    /**
+     * 客户名字
+     */
+    private String userName;
     /**
      * 订单状态
      */
@@ -30,12 +37,30 @@ public class OrderDTO extends BaseDTO {
      */
     private String remark;
 
+    private List<ShoppingCartDTO> scList;
+
     public String getOrderNo() {
         return orderNo;
     }
 
     public void setOrderNo(String orderNo) {
         this.orderNo = orderNo;
+    }
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getSuatus() {
@@ -68,5 +93,13 @@ public class OrderDTO extends BaseDTO {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public List<ShoppingCartDTO> getScList() {
+        return scList;
+    }
+
+    public void setScList(List<ShoppingCartDTO> scList) {
+        this.scList = scList;
     }
 }

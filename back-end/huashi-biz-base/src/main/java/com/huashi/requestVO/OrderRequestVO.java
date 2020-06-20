@@ -9,10 +9,17 @@ import com.huashi.framework.core.requestVO.BaseRequestVO;
 public class OrderRequestVO extends BaseRequestVO {
 
     private static final long serialVersionUID = -5672482191568869824L;
+
+    private Long id;
     /**
      * 订单编号
      */
     private String orderNo;
+    private String openId;
+    /**
+     * 客户名字
+     */
+    private String userName;
     /**
      * 订单状态
      */
@@ -29,6 +36,18 @@ public class OrderRequestVO extends BaseRequestVO {
      * 备注
      */
     private String remark;
+    /**
+     * 购物车id集合(例：)
+     */
+    private String cartIds;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getOrderNo() {
         return orderNo;
@@ -36,6 +55,22 @@ public class OrderRequestVO extends BaseRequestVO {
 
     public void setOrderNo(String orderNo) {
         this.orderNo = orderNo;
+    }
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public Integer getSuatus() {
@@ -68,5 +103,13 @@ public class OrderRequestVO extends BaseRequestVO {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getCartIds() {
+        return cartIds;
+    }
+
+    public void setCartIds(String cartIds) {
+        this.cartIds = cartIds;
     }
 }

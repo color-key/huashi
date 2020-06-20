@@ -1,29 +1,28 @@
 package com.huashi.controller;
 
-import com.huashi.dto.ShoppingCartDTO;
+import com.huashi.dto.OrderDTO;
 import com.huashi.framework.core.controller.AppResult;
 import com.huashi.framework.core.controller.PaginatorController;
 import com.huashi.framework.core.controller.PaginatorRequest;
 import com.huashi.framework.core.controller.PaginatorResult;
-import com.huashi.requestVO.ShoppingCartRequestVO;
-import com.huashi.requestVO.searchRequestVO.ShoppingCartSearchRequestVO;
-import com.huashi.service.ShoppingCartService;
+import com.huashi.requestVO.OrderRequestVO;
+import com.huashi.requestVO.searchRequestVO.OrderSearchRequestVO;
+import com.huashi.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * 购物车
  * @author xiaoyu
- * @data 2020/6/19.
+ * @data 2020/6/20.
  */
 @RestController
-@RequestMapping(value = "shoppingCart")
-public class ShoppingCartController extends PaginatorController<ShoppingCartDTO> {
+@RequestMapping(value = "order")
+public class OrderController extends PaginatorController<OrderDTO> {
 
     @Autowired
-    private ShoppingCartService shoppingCartService;
+    private OrderService orderService;
 
     /**
      * 查询用户购物车
@@ -31,19 +30,19 @@ public class ShoppingCartController extends PaginatorController<ShoppingCartDTO>
      * @return
      */
     @RequestMapping(value = "/page", method = RequestMethod.POST)
-    public PaginatorResult<ShoppingCartDTO> findPage(final HttpServletRequest request){
+    public PaginatorResult<OrderDTO> findPage(final HttpServletRequest request){
         // 分页信息
         PaginatorRequest pr = buildPaginatorRequest(request);
-        ShoppingCartSearchRequestVO requestVO = new ShoppingCartSearchRequestVO();
+        OrderSearchRequestVO requestVO = new OrderSearchRequestVO();
         buildRequestVO(requestVO, request);
 
-        PaginatorResult<ShoppingCartDTO> result = shoppingCartService.findShoppingCart(requestVO, pr);
+        PaginatorResult<OrderDTO> result = orderService.findOrder(requestVO, pr);
         return result;
     }
 
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
     public AppResult get(@PathVariable Long id){
-        ShoppingCartDTO dto = shoppingCartService.findOne(id);
+        OrderDTO dto = orderService.findOne(id);
 
         AppResult result = new AppResult();
         result.setData(dto);
@@ -56,21 +55,8 @@ public class ShoppingCartController extends PaginatorController<ShoppingCartDTO>
      * @return
      */
     @RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST)
-    public AppResult saveOrUpdate(@RequestBody ShoppingCartRequestVO requsetVO ){
-        shoppingCartService.saveOrUpdate(requsetVO);
+    public AppResult saveOrUpdate(@RequestBody OrderRequestVO requsetVO ){
+        orderService.saveOrUpdate(requsetVO);
         return success("");
     }
-
-    /**
-     * 用户删除购物车
-     * @param id
-     * @return
-     */
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
-    public AppResult delete(@PathVariable Long id){
-        shoppingCartService.del(id);
-        return success("");
-    }
-
-
 }

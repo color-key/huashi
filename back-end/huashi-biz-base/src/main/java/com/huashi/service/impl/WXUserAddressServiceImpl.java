@@ -23,12 +23,7 @@ public class WXUserAddressServiceImpl extends BaseServiceImpl<WXUserAddress, WXU
     @Override
     public PaginatorResult<WXUserAddressDTO> findWXUserAddress(WXUserAddressSearchRequestVO requestVO, PaginatorRequest pr) {
         PaginatorResult<WXUserAddress> pResult = getDAO().findWXUserAddress(requestVO, pr);
-
-        PaginatorResult<WXUserAddressDTO> result = new PaginatorResult<>();
-        result.setCount(pResult.getCount());
-        result.setRecords(getConverter().toDTOList(pResult.getRecords()));
-        result.setTotalPages(pResult.getTotalPages());
-
+        PaginatorResult<WXUserAddressDTO> result = new PaginatorResult<>(getConverter().toDTOList(pResult.getRecords()), pResult.getCount(), pResult.getTotalPages());
         return result;
     }
 
