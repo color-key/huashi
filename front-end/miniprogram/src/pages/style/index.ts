@@ -1,0 +1,1 @@
+export const APPC = 'APPC';

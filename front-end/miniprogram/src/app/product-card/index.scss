@@ -1,0 +1,50 @@
+@import '../style/index.scss';
+@import '../../components/theme/default.scss';
+
+.#{$APPC}-product-card {
+  &-root {
+    width: calc(100% - 48px);
+    height: 100%;
+    margin-top: 24px;
+    margin-bottom: 24px;
+    margin-left: 24px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+  &-header{
+    display: flex;
+    justify-content: space-between;
+    width: calc(100% - 48px);
+    margin-left: 24px;
+    margin-bottom: 24px;
+  }
+  &-container{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    // margin-top: 16px;
+    // margin-bottom: 16px;
+    // margin-left: 24px;
+  }
+  &-img{
+    width: 180px;
+    height: 180px;
+  }
+  &-left{
+    width: 80px;
+    text-align: center;
+  }
+  &-check{
+    width: 60px;
+    height: 60px;
+  }
+  &-person{
+    width: 240px;
+    text-align: center;
+    margin-right: 24px;
+  }
+  &-info{
+    display: flex;
+    align-items: center;
+  }
+}

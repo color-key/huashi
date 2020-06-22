@@ -1,0 +1,30 @@
+// @import '../base/index';
+
+.#{$FAYMDC}-icon{
+  &-root {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background-size: cover;
+  }
+  &-color{
+    &-inherit{
+      color: 'inherit'
+    }
+    &-primary{
+      color: #{$theme-palette-primary-main}
+    }
+    &-secondary{
+      color: #{$theme-palette-secondary-main}
+    }
+    &-action{
+      color: #{$theme-palette-action-active}
+    }
+    &-disabled{
+      color: #{$theme-palette-action-disabled}
+    }
+    &-error{
+      color: #{$theme-palette-error-main}
+    }
+  }
+}

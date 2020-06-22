@@ -1,0 +1,15 @@
+$DURATION: 550;
+$DELAY_RIPPLE: 80;
+
+.#{$FAYMDC}-touch-ripple{
+  &-root {
+    position: absolute;
+    overflow: hidden;
+    z-index: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: inherit;
+  }
+}

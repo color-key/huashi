@@ -1,0 +1,29 @@
+{
+  "name": "huashi",
+  "private": true,
+  "version": "1.0.0",
+  "description": "huashi",
+  "main": "index.js",
+  "keywords": [],
+  "author": "fay <869770665@qq.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "remax build -w -t",
+    "build": "cross-env NODE_ENV=production remax build -t"
+  },
+  "dependencies": {
+    "@remax/plugin-sass": "^1.0.0",
+    "@types/react-transition-group": "^4.4.0",
+    "clsx": "^1.1.1",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-transition-group": "^4.4.1",
+    "remax": "^2.3.0",
+    "threejs-miniprogram": "0.0.5"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.2",
+    "@types/react": "^16.9.16",
+    "typescript": "^3.7.3"
+  }
+}

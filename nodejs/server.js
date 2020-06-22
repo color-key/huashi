@@ -48,6 +48,12 @@ router.post('/user/add', async (ctx, next) => {
   ctx.response.body = res;
 });
 
+router.post('/user/upd', async (ctx, next) => {
+  const res = await addOrderNumber(ctx.request.body);
+  ctx.response.type = 'application/json';
+  ctx.response.body = res;
+});
+
 router.get('/user/getByOpenid/:openid', async (ctx, next) => {
   const { openid } = ctx.params
   const res = await getUserByOpenid(openid);

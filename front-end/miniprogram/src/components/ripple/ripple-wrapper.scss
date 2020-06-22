@@ -1,0 +1,11 @@
+// @import '../base/index';
+
+.#{$FAYMDC}-ripple-wrapper{
+  &-root {
+    position: relative;
+    color: inherit;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+}

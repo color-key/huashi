@@ -1,0 +1,86 @@
+// @import '../base/index';
+
+.#{$FAYMDC}-paper{
+  &-root {
+    color: #{$theme-palette-text-primary};
+    background-color: #{$theme-palette-background-paper};
+  }
+  &-rounded{
+    border-radius: #{$theme-shape-borderRadius};
+  }
+  &-elevation0{
+    box-shadow: #{$theme-shadows-0};
+  }
+  &-elevation1{
+    box-shadow: #{$theme-shadows-1};
+  }
+  &-elevation2{
+    box-shadow: #{$theme-shadows-2};
+  }
+  &-elevation3{
+    box-shadow: #{$theme-shadows-3};
+  }
+  &-elevation4{
+    box-shadow: #{$theme-shadows-4};
+  }
+  &-elevation5{
+    box-shadow: #{$theme-shadows-5};
+  }
+  &-elevation6{
+    box-shadow: #{$theme-shadows-6};
+  }
+  &-elevation7{
+    box-shadow: #{$theme-shadows-7};
+  }
+  &-elevation8{
+    box-shadow: #{$theme-shadows-8};
+  }
+  &-elevation9{
+    box-shadow: #{$theme-shadows-9};
+  }
+  &-elevation10{
+    box-shadow: #{$theme-shadows-10};
+  }
+  &-elevation11{
+    box-shadow: #{$theme-shadows-11};
+  }
+  &-elevation12{
+    box-shadow: #{$theme-shadows-12};
+  }
+  &-elevation13{
+    box-shadow: #{$theme-shadows-13};
+  }
+  &-elevation14{
+    box-shadow: #{$theme-shadows-14};
+  }
+  &-elevation15{
+    box-shadow: #{$theme-shadows-15};
+  }
+  &-elevation16{
+    box-shadow: #{$theme-shadows-16};
+  }
+  &-elevation17{
+    box-shadow: #{$theme-shadows-17};
+  }
+  &-elevation18{
+    box-shadow: #{$theme-shadows-18};
+  }
+  &-elevation19{
+    box-shadow: #{$theme-shadows-19};
+  }
+  &-elevation20{
+    box-shadow: #{$theme-shadows-20};
+  }
+  &-elevation21{
+    box-shadow: #{$theme-shadows-21};
+  }
+  &-elevation22{
+    box-shadow: #{$theme-shadows-22};
+  }
+  &-elevation23{
+    box-shadow: #{$theme-shadows-23};
+  }
+  &-elevation24{
+    box-shadow: #{$theme-shadows-24};
+  }
+}

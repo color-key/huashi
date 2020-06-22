@@ -4,8 +4,8 @@ const path = require('path');
 const {query} = require('./mysql');
 
 const mysqlTable = "wx_user";
-const appid = 'wxd3b42cce45afe0d0';
-const secret = 'bb7e7d305eb1dadd8386e63fecb69ed2';
+const appid = 'wxfdcd2b6f1795fdf2';
+const secret = 'b2d4e3e742279f754273467f17a94fde';
 
 const login = ({code, userInfo}) => {
   const data = "?appid="+appid+"&secret="+secret+"&js_code="+code+"&grant_type=authorization_code";
@@ -15,11 +15,18 @@ const login = ({code, userInfo}) => {
         const res = JSON.parse(body);
         const openid = res.openid;
         userInfo.openid = openid;
+        console.log(body, response);
         getUserByOpenid(openid).then(getUserByOpenidRes => {
           if(getUserByOpenidRes.success){
             const data = getUserByOpenidRes.result[0];
             if(data){
-              resolve({success: true, result: {openid}});
+              updUser(userInfo).then(updUserRes => {
+                if(updUserRes.success){
+                  resolve({success: true, result: {openid}});
+                }else{
+                  resolve(updUserRes);
+                }
+              })
             }else{
               addUser(userInfo).then(addUserRes => {
                 if(addUserRes.success){
@@ -47,6 +54,13 @@ const addUser = async (data) => {
   return res;
 }
 
+const updUser = async (data) => {
+  const sqls = [];
+  sqls.push('UPDATE '+mysqlTable+' SET nickName="'+data.nickName+'", avatarUrl="'+data.avatarUrl+'", gender="'+data.gender+'", country="'+data.country+'", province="'+data.province+'", city="'+data.city+'", language="'+data.language+'" WHERE openid="'+data.openid+'"');
+  const res = await query(sqls.join(';'));
+  return res;
+}
+
 const getUserByOpenid = async (openid) => {
   const sql = 'SELECT * FROM '+mysqlTable+' WHERE `openid` = ?';
   const args = [openid];
@@ -56,6 +70,7 @@ const getUserByOpenid = async (openid) => {
 
 module.exports = {
   addUser,
+  updUser,
   getUserByOpenid,
   login
 }

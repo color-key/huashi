@@ -1,0 +1,10 @@
+@import '../../components/theme/default.scss';
+@import '../style/index.scss';
+@import './footer.scss';
+
+.#{$APPC}-layout {
+  &-root {
+    width: 100%;
+    height: 100%;
+  }
+}

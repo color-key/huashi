@@ -75,8 +75,25 @@ export default () => {
     const _id = getQueryString('id');
     setId(_id);
     setTimeout(() => {
-      wx.miniProgram.getEnv(function(res) { alert(res.miniprogram) })
-      wx.miniProgram.switchTab({url: 'pages/shopping-car/index'})
+      console.log(wx);
+      wx.miniProgram.getEnv(function(res: any) { alert(res.miniprogram) })
+      wx.miniProgram.redirectTo({url: 'pages/address/index'})
+      // wx.miniProgram.navigateBack();
+      // wx.miniProgram.navigateTo({
+      //   url:'pages/custom/index',
+      //   success: function(){
+      //     alert('success')
+      //       console.log('success')
+      //   },
+      //   fail: function(){
+      //     alert('fail')
+      //       console.log('fail');
+      //   },
+      //   complete:function(){
+      //     alert('complete')
+      //       console.log('complete');
+      //   }
+      // });
     }, 2000);
   }, [])
 
