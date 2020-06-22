@@ -12,6 +12,7 @@ import java.util.Date;
 public class DatetimeUtil {
     public final static String FORMAT1 = "yyyy-MM-dd HH:mm:ss";
     public final static String FORMAT2 = "yyyy-MM-dd";
+    public final static String FORMAT3 = "yyyyMMddHHmmss";
 
     public static String toString(Date date) {
         try {

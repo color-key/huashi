@@ -1,10 +1,10 @@
 package com.huashi.service.impl;
 
-import com.huashi.entity.User;
+import com.huashi.entity.Manager;
 import com.huashi.framework.core.redis.RedisKeyConstant;
 import com.huashi.framework.core.redis.RedisService;
 import com.huashi.service.LoginService;
-import com.huashi.service.UserService;
+import com.huashi.service.ManagerService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ContextedRuntimeException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class LoginServiceimpl implements LoginService {
     private RedisService redisService;
 
     @Autowired
-    private UserService userService;
+    private ManagerService managerService;
 
     @Override
     public Map<String, String> login(String userName, String password) {
@@ -42,19 +42,20 @@ public class LoginServiceimpl implements LoginService {
             throw new ContextedRuntimeException("密码不能为空");
         }
 
-        User user = userService.login(userName, password);
+        Manager manager = managerService.login(userName, password);
 
-        if (user == null) {
+        if (manager == null) {
             throw new ContextedRuntimeException("登录用户名不存在或者密码错误");
         }
         // 生成token
         String token = uuid();
-        redisService.setObject(RedisKeyConstant.CUSTOMER_KEY_PREFIX + "token:" + token, user, EXPIRE_TIME_OUT);
+        redisService.setObject(RedisKeyConstant.CUSTOMER_KEY_PREFIX + "token:" + token, manager, EXPIRE_TIME_OUT);
 
         Map<String, String> param = new HashMap<>();
-        param.put("id", user.getId().toString());
-        param.put("name", user.getName());
-        param.put("mobile", user.getMobile());
+        param.put("id", manager.getId().toString());
+        param.put("username", manager.getUsername());
+        param.put("mobile", manager.getMobile());
+        param.put("fullName", manager.getFullName());
         param.put("token", token);
 
         return param;

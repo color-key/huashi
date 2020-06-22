@@ -15,6 +15,7 @@ public class BaseEntity<I extends Serializable> implements Serializable{
     private static final long serialVersionUID = 1757956305662057086L;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private I id;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(updatable=false)

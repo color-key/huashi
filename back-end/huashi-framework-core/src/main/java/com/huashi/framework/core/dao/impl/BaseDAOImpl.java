@@ -1,6 +1,6 @@
 package com.huashi.framework.core.dao.impl;
 
-import com.huashi.framework.core.utils.PaginatorRequest;
+import com.huashi.framework.core.controller.PaginatorRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Session;
 import org.hibernate.transform.Transformers;
@@ -91,8 +91,7 @@ public class BaseDAOImpl {
      * @param paginatorRequest
      * @return query
      */
-    protected Query buildQuery(StringBuilder jql, Map<String, Object> paramsMap, PaginatorRequest paginatorRequest,
-                               boolean isNative) {
+    protected Query buildQuery(StringBuilder jql, Map<String, Object> paramsMap, PaginatorRequest paginatorRequest, boolean isNative) {
         if (paginatorRequest != null) {
             if (StringUtils.isNotBlank(paginatorRequest.getSortName())) {
                 jql.append(" order by ").append(paginatorRequest.getSortName().split(" ")[0].replaceAll("'", ""))
