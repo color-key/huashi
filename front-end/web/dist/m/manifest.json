@@ -1,0 +1,17 @@
+{
+  "name": "天蕾SEO",
+  "short_name": "天蕾SEO",
+  "description": "天蕾企业服务有限公司",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/m/static/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#263BE0",
+  "background_color": "#ffffff",
+  "start_url": "/m/",
+  "display": "standalone"
+}

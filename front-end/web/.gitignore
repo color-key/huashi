@@ -1,0 +1,7 @@
+npm-debug.log*
+.idea
+node_modules/
+/pub
+.next/
+out/
+.vscode

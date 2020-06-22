@@ -1,0 +1,32 @@
+{
+  "name": "tianlad",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=development PORT=8000 node node_modules/@fay-next/config/devServer/config.js",
+    "build": "next build",
+    "pro": "npm run clear && next build && next start",
+    "export": "npm run clear && next build && next export && npm run dist",
+    "dist": "cp -r ./out/_next ./out/404 ./out/sw.js ./out/pc && rm -rf ../dist/pc/* && cp -r ./out/pc/* ../dist/pc/",
+    "clear": "rm -rf .next out",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fay-react/lib": "0.0.1-alpha.31",
+    "@material-ui/core": "^4.9.12",
+    "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.51",
+    "moment": "^2.25.3",
+    "react-number-format": "^4.4.1",
+    "react-swipeable-views": "^0.13.9"
+  },
+  "devDependencies": {
+    "@fay-next/config": "0.0.1-alpha.6",
+    "@types/react-swipeable-views": "^0.13.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  }
+}
