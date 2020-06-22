@@ -47,16 +47,16 @@ jobs:
           REMOTE_USER: ${{ secrets.SERVER_USER_NAME }}
           TARGET: ${{ secrets.SERVER_NODEJS_TARGET }}
 
-      - name: Deploy test to Server
-        run: mkdir /fay/test
-        uses: easingthemes/ssh-deploy@v2.1.2
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
-          ARGS: '-rltgoDzvO --delete'
-          SOURCE: 'nodejs/'
-          REMOTE_HOST: ${{ secrets.SERVER_HOST_NAME }}
-          REMOTE_USER: ${{ secrets.SERVER_USER_NAME }}
-          TARGET: ${{ secrets.SERVER_NODEJS_TARGET }}
+      # - name: Deploy test to Server
+      #   run: mkdir /fay/test
+      #   uses: easingthemes/ssh-deploy@v2.1.2
+      #   env:
+      #     SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+      #     ARGS: '-rltgoDzvO --delete'
+      #     SOURCE: 'nodejs/'
+      #     REMOTE_HOST: ${{ secrets.SERVER_HOST_NAME }}
+      #     REMOTE_USER: ${{ secrets.SERVER_USER_NAME }}
+      #     TARGET: ${{ secrets.SERVER_NODEJS_TARGET }}
 
       # - name: Build Nodejs volumn:clear
       #   run: cd ${{ secrets.SERVER_NODEJS_TARGET }} &&  mkdir public && mkdir public/face
