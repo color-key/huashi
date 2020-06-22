@@ -6,7 +6,7 @@ const request = require('request');
 const fs = require('fs');
 const path = require('path');
 const {save3DFiles} = require('./face');
-const {addUser, getUserByOpenid, login} = require('./user');
+const {addUser, getUserByOpenid, login, updUser} = require('./user');
 const {addShoppingCar, getShoppingCar, addOrderNumber, getOrder} = require('./shopping-car');
 
 const app = new Koa();
@@ -49,7 +49,7 @@ router.post('/user/add', async (ctx, next) => {
 });
 
 router.post('/user/upd', async (ctx, next) => {
-  const res = await addOrderNumber(ctx.request.body);
+  const res = await updUser(ctx.request.body);
   ctx.response.type = 'application/json';
   ctx.response.body = res;
 });
