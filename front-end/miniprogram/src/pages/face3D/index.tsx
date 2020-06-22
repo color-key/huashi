@@ -1,6 +1,7 @@
 import React from 'react';
 import { WebView, View } from 'remax/one';
 import {login} from '@/lib/login';
+import {WEB_URL} from '@/env';
 
 export default () => {
 
@@ -9,7 +10,7 @@ export default () => {
   React.useEffect(() => {
     login().then((res: any) => {
       if(res.success){
-        setSrc("https://huashi.faycz.com/m/face3D/?id="+res.openid);
+        setSrc(WEB_URL+"/face3D/?id="+res.openid);
       }else{
         //
       }
