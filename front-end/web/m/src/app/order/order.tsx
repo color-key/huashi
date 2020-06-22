@@ -74,27 +74,13 @@ export default () => {
   React.useEffect(() => {
     const _id = getQueryString('id');
     setId(_id);
-    setTimeout(() => {
-      console.log(wx);
-      wx.miniProgram.getEnv(function(res: any) { alert(res.miniprogram) })
-      // wx.miniProgram.redirectTo({url: 'pages/address/index'})
-      // wx.miniProgram.navigateBack();
-      wx.miniProgram.switchTab({
-        url:'/pages/shopping-car/index',
-        success: function(){
-          alert('success')
-            console.log('success')
-        },
-        fail: function(){
-          alert('fail')
-            console.log('fail');
-        },
-        complete:function(){
-          alert('complete')
-            console.log('complete');
-        }
-      });
-    }, 2000);
+    // setTimeout(() => {
+    //   // console.log(wx);
+    //   // wx.miniProgram.getEnv(function(res: any) { alert(res.miniprogram) })
+    //   // wx.miniProgram.redirectTo({url: 'pages/address/index'})
+    //   // wx.miniProgram.navigateBack();
+      
+    // }, 2000);
   }, [])
 
   const handleChange = (key: string) => (e: any) => {
@@ -116,6 +102,18 @@ export default () => {
     postJson({path: '/api/shopping-car/add', data: {...order, openid: id}}).then(res => {
       console.log(res);
       if(res.success){
+        wx.miniProgram.switchTab({
+          url:'/pages/shopping-car/index',
+          success: function(){
+            console.log('success')
+          },
+          fail: function(){
+            console.log('fail');
+          },
+          complete:function(){
+            console.log('complete');
+          }
+        });
       }else{
         setLoading(false);
       }
