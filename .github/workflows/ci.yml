@@ -36,4 +36,28 @@ jobs:
           REMOTE_HOST: ${{ secrets.SERVER_HOST_NAME }}
           REMOTE_USER: ${{ secrets.SERVER_USER_NAME }}
           TARGET: ${{ secrets.SERVER_WEB_TARGET }}
-          
+
+      - name: Deploy nodejs to Server
+        uses: easingthemes/ssh-deploy@v2.1.2
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+          ARGS: '-rltgoDzvO --delete'
+          SOURCE: 'nodejs/'
+          REMOTE_HOST: ${{ secrets.SERVER_HOST_NAME }}
+          REMOTE_USER: ${{ secrets.SERVER_USER_NAME }}
+          TARGET: ${{ secrets.SERVER_NODEJS_TARGET }}
+
+      - name: Build Project
+        run: cd ${{ secrets.SERVER_NODEJS_TARGET }}
+        run: rm -rf *
+        run: mkdir public
+        run: mkdir public/face
+        run: docker stop huashi-nodejs
+        run: docker rm huashi-nodejs
+        run: docker rmi huashi-nodejs
+        run: docker build -t huashi-nodejs .
+        run: docker run --restart=always -d -p 3000:3000 -v /fay/nginx/html/huashi:/app/public --name huashi-nodejs huashi-nodejs
+        env:
+          CI: true
+
+  
