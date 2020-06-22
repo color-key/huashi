@@ -13,7 +13,7 @@ const serverLogin = () => {
           success(res){
             const code: any = res.code;
             request({
-              url: 'http://localhost:3000/login',
+              url: SERVER_URL+'/login',
               method: 'POST',
               data: {
                 code,
