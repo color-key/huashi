@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=development PORT=8000 node node_modules/@fay-next/config/devServer/config.js",
+    "start": "cross-env NODE_ENV=development PORT=7000 node node_modules/@fay-next/config/devServer/config.js",
     "build": "next build",
     "pro": "npm run clear && next build && next start",
     "export": "npm run clear && next build && next export && npm run dist",
