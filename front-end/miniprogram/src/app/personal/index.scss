@@ -52,33 +52,42 @@
         margin-right: 24px;
       }
     }
-  }
-  &-order{
-    &-root{
-      margin-top: 24px;
-      padding-top: 24px;
-      padding-bottom: 24px;
-      padding-left: 24px;
-    }
-    &-img{
-      width: 48px;
-      height: 48px;
-    }
-    &-container{
-      width: calc(100% - 24px);
-      display: flex;
-      justify-content: space-between;
-      &-left{
-        display: flex;
-        align-items: center;
-      }
-      &-img{
-        width: 32px;
-        height: 32px;
-        margin-right: 24px;
+    &-address{
+      margin-top: 20px;
+      &-item{
+        padding-top: 20px;
+        & text{
+          margin-right: 20px;
+        }
       }
     }
   }
+  // &-order{
+  //   &-root{
+  //     margin-top: 24px;
+  //     padding-top: 24px;
+  //     padding-bottom: 24px;
+  //     padding-left: 24px;
+  //   }
+  //   &-img{
+  //     width: 48px;
+  //     height: 48px;
+  //   }
+  //   &-container{
+  //     width: calc(100% - 24px);
+  //     display: flex;
+  //     justify-content: space-between;
+  //     &-left{
+  //       display: flex;
+  //       align-items: center;
+  //     }
+  //     &-img{
+  //       width: 32px;
+  //       height: 32px;
+  //       margin-right: 24px;
+  //     }
+  //   }
+  // }
   &-tip{
     margin-top: 48px;
   }

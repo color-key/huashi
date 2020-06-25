@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Button } from 'remax/one';
+import { usePageEvent } from 'remax/macro';
 import { request, showLoading, hideLoading } from 'remax/wechat';
 import './index.scss';
 import {APPC} from '../style';
@@ -12,10 +13,11 @@ const CLASS_PREFIX = APPC+'-order-list';
 export default () => {
   const [disabled, setDisabled] = React.useState(false);
   const [data, setData] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
   const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
 
   const getData = React.useCallback(() => {
-    showLoading();
+    setLoading(true);
     login().then((res: any) => {
       if(res.success){
         request({
@@ -26,10 +28,10 @@ export default () => {
           },
           success (res: any) {
             setData(res.data.result);
-            hideLoading();
+            setLoading(false);
           },
           fail(){
-            hideLoading();
+            setLoading(false);
           }
         })
       }
@@ -37,7 +39,14 @@ export default () => {
   }, []);
 
   React.useEffect(() => {
+    loading ? showLoading() : hideLoading();
+  }, [loading]);
+
+  usePageEvent('onShow', () => {
     getData();
+  });
+  React.useEffect(() => {
+    
   }, []);
 
   React.useEffect(() => {
@@ -85,19 +94,29 @@ export default () => {
   return (
     <View className={CLASS_PREFIX+'-root'}>
       <View className={CLASS_PREFIX+'-container'}>
-        {
-          data.map((item: any) => {
-            return (
-              <ProductCard
-                key={item.id}
-                data={item}
-                selected={selectedIds.includes(item.id)}
-                onTap={() => handleChange(!selectedIds.includes(item.id), item.id)}
-                order
-              />
-            )
-          })
-        }
+      {
+        data.length === 0 && !loading ?
+        <View className={CLASS_PREFIX+'-empty'}>
+          空空如也
+        </View>
+        :
+        <View className={CLASS_PREFIX+'-container'}>
+          {
+            data.map((item: any) => {
+              return (
+                <ProductCard
+                  key={item.id}
+                  data={item}
+                  selected={selectedIds.includes(item.id)}
+                  onTap={() => handleChange(!selectedIds.includes(item.id), item.id)}
+                  order
+                />
+              )
+            })
+          }
+        </View>
+      }
+        
       </View>
       {/* <View className={CLASS_PREFIX+'-footer'}>
         <Button disabled={disabled} className={CLASS_PREFIX+'-btn'}>删除</Button>

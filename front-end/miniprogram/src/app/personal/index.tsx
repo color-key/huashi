@@ -1,10 +1,9 @@
 import React from 'react';
 import { View, Image, Button } from 'remax/one';
-import { getUserInfo, showLoading, hideLoading, navigateTo } from 'remax/wechat';
+import { getUserInfo, showLoading, hideLoading } from 'remax/wechat';
 import './index.scss';
 import {APPC} from '../style';
 import Address from './address';
-import Order from './order';
 import {login} from '@/lib/login';
 
 const CLASS_PREFIX = APPC+'-personal';
@@ -13,10 +12,14 @@ export default () => {
   const [user, setUser] = React.useState<any>(null);
 
   const getData = React.useCallback(() => {
+    showLoading();
     getUserInfo({
       lang: 'zh_CN',
       success(userInfoRes) {
         setUser(userInfoRes.userInfo);
+      },
+      complete(){
+        hideLoading();
       }
     })
   }, []);
@@ -54,7 +57,6 @@ export default () => {
             </View>
           </View>
           <Address/>
-          <Order/>
           <View className={CLASS_PREFIX+'-tip'}>友情提醒：每日13点前提交订单视为当日订单</View>
         </View>
         :

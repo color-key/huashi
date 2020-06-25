@@ -1,22 +1,24 @@
 import React from 'react';
+import { usePageEvent } from 'remax/macro';
 import { View, Image, Button } from 'remax/one';
-import { request, showToast, showLoading, hideLoading, navigateTo } from 'remax/wechat';
+import { request, showToast, showLoading, hideLoading, navigateTo, switchTab } from 'remax/wechat';
 import './index.scss';
 import {APPC} from '../style';
 import ProductCard from '../product-card';
 import {login} from '@/lib/login';
 import {SERVER_URL} from '@/env';
+import {chooseAddress} from '@/lib/wechat';
 
 const CLASS_PREFIX = APPC+'-shopping-car';
 
 export default () => {
-  // const [state, setState] = React.useState({faceFront: null, faceLeft: null, faceRight: null});
   const [disabled, setDisabled] = React.useState(false);
   const [data, setData] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
   const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
 
   const getData = React.useCallback(() => {
-    showLoading();
+    setLoading(true);
     login().then((res: any) => {
       if(res.success){
         request({
@@ -27,19 +29,23 @@ export default () => {
           },
           success (res: any) {
             setData(res.data.result);
-            hideLoading();
+            setLoading(false);
           },
           fail(){
-            hideLoading();
+            setLoading(false);
           }
         })
       }
     })
   }, []);
 
-  React.useEffect(() => {
+  usePageEvent('onShow', () => {
     getData();
-  }, []);
+  });
+
+  React.useEffect(() => {
+    loading ? showLoading() : hideLoading();
+  }, [loading]);
 
   React.useEffect(() => {
     if(selectedIds.length > 0 && disabled){
@@ -59,7 +65,9 @@ export default () => {
     }
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    const addressRes = await chooseAddress();
+    console.log(addressRes);
     showLoading();
     setDisabled(true);
     request({
@@ -69,12 +77,13 @@ export default () => {
         'content-type': 'application/json' // 默认值
       },
       data: {
-        ids: selectedIds.join(',')
+        ids: selectedIds.join(','),
+        address: JSON.stringify(addressRes)
       },
       success (res: any) {
         hideLoading();
         getData();
-        navigateTo({url: '/pages/order-list/index'});
+        switchTab({url: '/pages/order-list/index'});
       },
       fail(){
         hideLoading();
@@ -85,7 +94,7 @@ export default () => {
   return (
     <View className={CLASS_PREFIX+'-root'}>
       {
-        data.length === 0 ?
+        data.length === 0 && !loading ?
         <View className={CLASS_PREFIX+'-empty'}>
           空空如也
         </View>

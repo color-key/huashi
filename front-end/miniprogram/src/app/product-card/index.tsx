@@ -1,25 +1,19 @@
 import React from 'react';
-import { View, Image, Button } from 'remax/one';
-// import { chooseImage, getFileSystemManager, request, showToast, showLoading, hideLoading, navigateTo } from 'remax/wechat';
+import { View, Image } from 'remax/one';
 import './index.scss';
 import {APPC} from '../style';
 import Paper from '@/components/paper';
-import {SERVER_URL} from '@/env';
+import {ORIGIN} from '@/env';
 
 const CLASS_PREFIX = APPC+'-product-card';
 
 export default ({data, selected=false, onTap, order=false}: any) => {
-  // const [state, setState] = React.useState({faceFront: null, faceLeft: null, faceRight: null});
-  // const [disabled, setDisabled] = React.useState(false);
-
-  React.useEffect(() => {
-    // setDisabled([state.faceFront, state.faceLeft, state.faceRight].includes(null))
-  }, []);
 
   const statusText: any = {
     'PENDING': '待审核',
-    'PASS': '已发货',
+    'PASS': '已审核',
     'REJECT': '审核未通过',
+    'SEND': '已发货',
   }
 
   return (
@@ -40,7 +34,7 @@ export default ({data, selected=false, onTap, order=false}: any) => {
           </View>
         }
         <View className={CLASS_PREFIX+'-person'}>
-          <Image src={SERVER_URL+"/face/"+data.id+"/face1"} className={CLASS_PREFIX+'-img'}/>
+          <Image src={ORIGIN+"/face/"+data.id+"/face1"} className={CLASS_PREFIX+'-img'}/>
         </View>
         <View className={CLASS_PREFIX+'-eye'}>
           <View>{data.name} {data.gender===1?'女士':data.gender===0?'先生':''} {data.mobile}</View>

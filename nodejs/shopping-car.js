@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const shortid = require('shortid');
 const moment = require('moment');
+const {getQueryString} = require('./lib/query');
 
 const mysqlTable = "shopping_cart";
 
@@ -71,10 +72,19 @@ const getShoppingCar = async (openid) => {
   return res;
 }
 
-const getOrder = async (openid) => {
-  const sql = 'SELECT * FROM '+mysqlTable+' WHERE `wx_user_id` = ? and order_no is not null';
-  const args = [openid];
-  const res = await query(sql, args);
+const getOrder = async (openid, ctx) => {
+  const orderNo = getQueryString(ctx.request, 'orderNo') || '';
+  const username = getQueryString(ctx.request, 'username') || '';
+  const queryDataStr = ' and order_no like "%'+orderNo+'%" and name like "%'+username+'%"';
+  let sql, args;
+  if(openid === 'find'){
+    sql = 'SELECT * FROM '+mysqlTable+' WHERE order_no is not null';
+    args = [];
+  }else{
+    sql = 'SELECT * FROM '+mysqlTable+' WHERE `wx_user_id` = ? and order_no is not null';
+    args = [openid];
+  }
+  const res = await query(sql+queryDataStr, args);
   if(res.success){
     res.result.map((item) => {
       item.creation_datetime = moment(item.creation_datetime).format('YYYY/MM/DD HH:mm');
@@ -85,11 +95,18 @@ const getOrder = async (openid) => {
 
 const addOrderNumber = async (data) => {
   const ids = data.ids.split(',');
+  const address = data.address;
   const sqls = [];
   ids.map((id) => {
-    sqls.push('UPDATE '+mysqlTable+' SET order_no="'+shortid.generate()+'" WHERE id='+id);
+    sqls.push('UPDATE '+mysqlTable+' SET order_no="'+shortid.generate()+'", address=\''+address+'\' WHERE id='+id);
   })
   const res = await multipleQuery(sqls.join(';'));
+  return res;
+}
+
+const updOrderStatus = async (data) => {
+  const sql = 'UPDATE '+mysqlTable+' SET status="'+data.status+'" WHERE id='+data.id;
+  const res = await query(sql);
   return res;
 }
 
@@ -97,5 +114,6 @@ module.exports = {
   addShoppingCar,
   getShoppingCar,
   addOrderNumber,
-  getOrder
+  getOrder,
+  updOrderStatus
 }

@@ -6,8 +6,10 @@ const request = require('request');
 const fs = require('fs');
 const path = require('path');
 const {save3DFiles} = require('./face');
-const {addUser, getUserByOpenid, login, updUser} = require('./user');
-const {addShoppingCar, getShoppingCar, addOrderNumber, getOrder} = require('./shopping-car');
+const {addUser, getUserByOpenid, login, updUser, getUser, updUserStatus, updUserAddress} = require('./user');
+const {addShoppingCar, getShoppingCar, addOrderNumber, getOrder, updOrderStatus} = require('./shopping-car');
+const manager = require('./manager');
+const {auth} = require('./auth');
 
 const app = new Koa();
 app.use(bodyParser());
@@ -54,11 +56,34 @@ router.post('/user/upd', async (ctx, next) => {
   ctx.response.body = res;
 });
 
+router.post('/user/updStatus', async (ctx, next) => {
+  const res = await updUserStatus(ctx.request.body);
+  ctx.response.type = 'application/json';
+  ctx.response.body = res;
+});
+
+router.post('/user/updAddress', async (ctx, next) => {
+  const res = await updUserAddress(ctx.request.body);
+  ctx.response.type = 'application/json';
+  ctx.response.body = res;
+});
+
 router.get('/user/getByOpenid/:openid', async (ctx, next) => {
   const { openid } = ctx.params
   const res = await getUserByOpenid(openid);
   ctx.response.type = 'application/json';
   ctx.response.body = res;
+});
+
+router.get('/user/find', async (ctx, next) => {
+  const authed = await auth(ctx);
+  if(authed){
+    const res = await getUser(ctx);
+    ctx.response.type = 'application/json';
+    ctx.response.body = res;
+  }else{
+    ctx.response.status = 401;
+  }
 });
 
 router.post('/shopping-car/add', async (ctx, next) => {
@@ -68,7 +93,8 @@ router.post('/shopping-car/add', async (ctx, next) => {
 });
 
 router.get('/shopping-car/:openid', async (ctx, next) => {
-  const { openid } = ctx.params
+  console.log(ctx);
+  const { openid } = ctx.params;
   const res = await getShoppingCar(openid);
   ctx.response.type = 'application/json';
   ctx.response.body = res;
@@ -81,8 +107,48 @@ router.post('/order/add', async (ctx, next) => {
 });
 
 router.get('/order/:openid', async (ctx, next) => {
-  const { openid } = ctx.params
-  const res = await getOrder(openid);
+  const authed = await auth(ctx);
+  if(authed){
+    const { openid } = ctx.params
+    const res = await getOrder(openid, ctx);
+    ctx.response.type = 'application/json';
+    ctx.response.body = res;
+  }else{
+    ctx.response.status = 401;
+  }
+});
+
+router.post('/updOrderStatus', async (ctx, next) => {
+  const res = await updOrderStatus(ctx.request.body);
+  ctx.response.type = 'application/json';
+  ctx.response.body = res;
+});
+
+router.post('/manager/login', async (ctx, next) => {
+  const res = await manager.login(ctx.request.body);
+  ctx.response.type = 'application/json';
+  ctx.response.body = res;
+});
+
+router.post('/manager/updPassword', async (ctx, next) => {
+  const res = await manager.updPassword(ctx.request.body);
+  ctx.response.type = 'application/json';
+  ctx.response.body = res;
+});
+
+router.get('/manager/find', async (ctx, next) => {
+  const authed = await auth(ctx);
+  if(authed){
+    const res = await manager.findManager(ctx);
+    ctx.response.type = 'application/json';
+    ctx.response.body = res;
+  }else{
+    ctx.response.status = 401;
+  }
+});
+
+router.post('/manager/add', async (ctx, next) => {
+  const res = await manager.addManager(ctx.request.body);
   ctx.response.type = 'application/json';
   ctx.response.body = res;
 });

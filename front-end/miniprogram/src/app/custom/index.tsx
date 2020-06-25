@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Image, Button } from 'remax/one';
-import { chooseImage, getFileSystemManager, request, showToast, showLoading, hideLoading, navigateTo } from 'remax/wechat';
+import { chooseImage, getFileSystemManager, request, showToast, showLoading, hideLoading, navigateTo, showModal } from 'remax/wechat';
 import {login} from '@/lib/login';
 import './index.scss';
 import {APPC} from '../style';
@@ -68,11 +68,30 @@ export default () => {
             header: {
               'content-type': 'application/json' // 默认值
             },
-            success (res) {
-              console.log(res.data)
-              hideLoading();
+            success (res: any) {
+              console.log(res, res.data)
               setDisabled(false);
-              navigateTo({url: "/pages/face3D/index"});
+              let error = null;
+              if(res.statusCode === 413){
+                error = '文件太大';
+              }else if(res.statusCode !== 200){
+                error = '人脸识别失败';
+              }else if(!res.data.success){
+                error = res.data.error;
+              }
+              hideLoading();
+              if(error){
+                showModal({
+                  title: '提示',
+                  content: error,
+                  showCancel: false,
+                })
+              }else{
+                navigateTo({url: "/pages/face3D/index"});
+              }
+            },
+            fail(res){
+              console.log(res);
             }
           })
         }else{

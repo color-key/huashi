@@ -2,6 +2,8 @@ const request = require('request');
 const fs = require('fs');
 const path = require('path');
 const {query} = require('./mysql');
+const {getQueryString} = require('./lib/query');
+const moment = require('moment');
 
 const mysqlTable = "wx_user";
 const appid = 'wxfdcd2b6f1795fdf2';
@@ -55,9 +57,20 @@ const addUser = async (data) => {
 }
 
 const updUser = async (data) => {
-  const sqls = [];
-  sqls.push('UPDATE '+mysqlTable+' SET nickName="'+data.nickName+'", avatarUrl="'+data.avatarUrl+'", gender="'+data.gender+'", country="'+data.country+'", province="'+data.province+'", city="'+data.city+'", language="'+data.language+'" WHERE openid="'+data.openid+'"');
-  const res = await query(sqls.join(';'));
+  const sql = 'UPDATE '+mysqlTable+' SET nickName="'+data.nickName+'", avatarUrl="'+data.avatarUrl+'", gender="'+data.gender+'", country="'+data.country+'", province="'+data.province+'", city="'+data.city+'", language="'+data.language+'" WHERE openid="'+data.openid+'"';
+  const res = await query(sql);
+  return res;
+}
+
+const updUserStatus = async (data) => {
+  const sql = 'UPDATE '+mysqlTable+' SET status="'+data.status+'" WHERE id="'+data.id+'"';
+  const res = await query(sql);
+  return res;
+}
+
+const updUserAddress = async (data) => {
+  const sql = 'UPDATE '+mysqlTable+' SET address=\''+data.address+'\' WHERE openid="'+data.id+'"';
+  const res = await query(sql);
   return res;
 }
 
@@ -68,9 +81,26 @@ const getUserByOpenid = async (openid) => {
   return res;
 }
 
+const getUser = async (ctx) => {
+  const nickName = getQueryString(ctx.request, 'nickName');
+  const queryDataStr = ' nickName like "%'+nickName+'%"';
+  const sql = 'SELECT * FROM '+mysqlTable+' WHERE'+queryDataStr;
+  const args = [];
+  const res = await query(sql, args);
+  if(res.success){
+    res.result.map((item) => {
+      item.creation_datetime = moment(item.creation_datetime).format('YYYY/MM/DD HH:mm');
+    })
+  }
+  return res;
+}
+
 module.exports = {
   addUser,
   updUser,
+  updUserStatus,
   getUserByOpenid,
-  login
+  login,
+  getUser,
+  updUserAddress
 }

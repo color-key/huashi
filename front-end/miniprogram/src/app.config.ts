@@ -1,6 +1,6 @@
 const pages = [
   'pages/index/index', 'pages/shopping-car/index', "pages/personal/index", "pages/custom/index",
-  "pages/face3D/index", "pages/order-list/index", "pages/address/index"
+  "pages/face3D/index", "pages/order-list/index"
 ];
 const color = '#FFFFFF';
 
@@ -23,6 +23,11 @@ export const wechat: WechatAppConfig = {
       iconPath: "/static/tab-bar/shopping-cart-outlined-80.png",
       selectedIconPath: "/static/tab-bar/shopping-cart-80.png",
     },{
+      "pagePath": "pages/order-list/index",
+      "text": "订单",
+      iconPath: "/static/tab-bar/order-outlined-80.png",
+      selectedIconPath: "/static/tab-bar/order-80.png",
+    },{
       "pagePath": "pages/personal/index",
       "text": "我的",
       iconPath: "/static/tab-bar/person-outlined-80.png",
@@ -35,8 +40,14 @@ export const wechat: WechatAppConfig = {
   window: {
     navigationBarBackgroundColor: color,
     navigationBarTitleText: '眼镜定制',
-    navigationBarTextStyle: 'black'
+    navigationBarTextStyle: 'black',
+    // enablePullDownRefresh: true
   },
+  permission: {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序位置接口的效果展示"
+    }
+  }
 };
 
 export const ali: AliAppConfig = {

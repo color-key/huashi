@@ -10,6 +10,12 @@
     width: 100%;
     position: absolute;
   }
+  &-location{
+    width: 40px;
+    height: 40px;
+    margin-right: 20px;
+    margin-left: 20px;
+  }
   &-customized{
     width: 100%;
     position: absolute;
@@ -24,7 +30,15 @@
       &-position{
         display: flex;
         align-items: center;
-        padding-top: 24px;
+        padding-top: 40px;
+        margin-bottom: 40px;
+      }
+      &-map{
+        display: flex;
+        justify-content: center;
+        & map{
+          width: calc(100% - 12px);
+        }
       }
       &-show{
         padding-top: 12px;
