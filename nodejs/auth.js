@@ -6,7 +6,7 @@ const auth = async (ctx, callback) => {
     const cookieArr = ctx.request.header.cookie.split(';');
     const hasUser = cookieArr.filter(item => item.trim().indexOf('current-user=')===0);
     if(hasUser.length>0){
-      const userEncode = hasUser[0].substr('current-user='.length);
+      const userEncode = hasUser[0].trim().substr('current-user='.length);
       const user = JSON.parse(decodeURIComponent(userEncode));
       const res = await findManagerByToken({token: user.token});
       if(res.success && res.result[0]){
