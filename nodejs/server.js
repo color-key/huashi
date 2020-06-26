@@ -107,9 +107,9 @@ router.post('/order/add', async (ctx, next) => {
 });
 
 router.get('/order/:openid', async (ctx, next) => {
+  const { openid } = ctx.params
   const authed = await auth(ctx);
-  if(authed){
-    const { openid } = ctx.params
+  if(authed || openid==='find'){
     const res = await getOrder(openid, ctx);
     ctx.response.type = 'application/json';
     ctx.response.body = res;

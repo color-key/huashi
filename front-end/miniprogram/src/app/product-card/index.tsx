@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image } from 'remax/one';
+import { View, Image, Button } from 'remax/one';
 import './index.scss';
 import {APPC} from '../style';
 import Paper from '@/components/paper';
@@ -37,18 +37,26 @@ export default ({data, selected=false, onTap, order=false}: any) => {
           <Image src={ORIGIN+"/face/"+data.id+"/face1"} className={CLASS_PREFIX+'-img'}/>
         </View>
         <View className={CLASS_PREFIX+'-eye'}>
-          <View>{data.name} {data.gender===1?'女士':data.gender===0?'先生':''} {data.mobile}</View>
-          <View>型号：{data.frame_model}</View>
-          <View>光度信息：</View>
-          <View className={CLASS_PREFIX+'-info'}>
-            <View>R: {data.cyl_mirror_right};{data.prism_right}/{data.axial_right}</View>
+          <View>
+            <View>{data.name} {data.gender===1?'女士':data.gender===0?'先生':''} {data.mobile}</View>
+            <View>型号：{data.frame_model}</View>
+            <View>光度信息：</View>
+            <View className={CLASS_PREFIX+'-info'}>
+              <View>R: {data.cyl_mirror_right};</View>
+              <View>{data.prism_right}/{data.axial_right}</View>
+            </View>
+            <View className={CLASS_PREFIX+'-info'}>
+              <View>L: {data.cyl_mirror_left};</View>
+              <View>{data.prism_left}/{data.axial_left}</View>
+            </View>
+            <View className={CLASS_PREFIX+'-info'}>
+              <View>PD: {data.interpupillary_distance}</View>
+              <View>VD: {data.point_pupil_right}/{data.point_pupil_left}</View>
+            </View>
           </View>
-          <View className={CLASS_PREFIX+'-info'}>
-            <View>L: {data.cyl_mirror_left};{data.prism_left}/{data.axial_left}</View>
-          </View>
-          <View className={CLASS_PREFIX+'-info'}>
-            <View>PD: {data.interpupillary_distance}</View>
-            <View>VD: {data.point_pupil_right}/{data.point_pupil_left}</View>
+          <View>
+            <Button className={CLASS_PREFIX+'-btn'}>编辑</Button>
+            <Button className={CLASS_PREFIX+'-btn'}>删除</Button>
           </View>
         </View>
       </View>

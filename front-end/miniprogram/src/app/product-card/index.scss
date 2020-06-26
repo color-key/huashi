@@ -21,18 +21,19 @@
   &-container{
     display: flex;
     width: 100%;
-    align-items: center;
     // margin-top: 16px;
     // margin-bottom: 16px;
     // margin-left: 24px;
   }
   &-img{
-    width: 180px;
-    height: 180px;
+    width: 200px;
+    height: 300px;
   }
   &-left{
     width: 80px;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   &-check{
     width: 60px;
@@ -43,8 +44,23 @@
     text-align: center;
     margin-right: 24px;
   }
+  &-eye{
+    & view{
+      margin-bottom: 4px;
+    }
+  }
   &-info{
     display: flex;
     align-items: center;
+    & view{
+      margin-right: 16px;
+    }
+  }
+  &-btn{
+    font-size: 20px;
+    width: 120px;
+    display: inline-block;
+    margin-right: 12px;
+    margin-top: 12px;
   }
 }

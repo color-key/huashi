@@ -29,11 +29,12 @@
     // height: 150px;
   }
   &-btn{
-    width: 200px;
+    width: 150px;
     color: #FFFFFF;
     background-color: #{$theme-palette-secondary-main};
     margin-right: 20px;
     margin-top: 16px;
     margin-bottom: 16px;
+    font-size: 24px;
   }
 }
