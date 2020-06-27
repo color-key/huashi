@@ -5,7 +5,7 @@ const koaBody = require('koa-body');
 const request = require('request');
 const fs = require('fs');
 const path = require('path');
-const {save3DFiles, archiver3DFiles} = require('./face');
+const {save3DFiles, archiver3DFiles, uploadFiles} = require('./face');
 const {addUser, getUserByOpenid, login, updUser, getUser, updUserStatus, updUserAddress} = require('./user');
 const {
   addShoppingCar, updShoppingCar, getShoppingCar,
@@ -16,15 +16,33 @@ const manager = require('./manager');
 const {auth} = require('./auth');
 
 const app = new Koa();
-app.use(bodyParser());
+// app.use(bodyParser());
+app.use(koaBody({
+  multipart: true,
+  formidable: {
+    maxFileSize: 200*1024*1024,    // 设置上传文件大小最大限制，默认2M
+    multipart:true
+  }
+}));
 
 router.post('/face', async (ctx, next) => {
-  const face1 = ctx.request.body.face1;
-  const face2 = ctx.request.body.face2;
-  const face3 = ctx.request.body.face3;
+  // const face1 = ctx.request.body.face1;
+  // const face2 = ctx.request.body.face2;
+  // const face3 = ctx.request.body.face3;
   const userId = ctx.request.body.userId;
-  const res = await save3DFiles({userId, face1, face2, face3});
-  archiver3DFiles(userId);
+  const res = await save3DFiles({userId});
+  ctx.response.type = 'application/json';
+  ctx.response.body = res;
+});
+
+router.post('/faceUpload', async (ctx, next) => {
+  let res;
+  try{
+    uploadFiles(ctx);
+    res = {success: true};
+  }catch(error){
+    res = {success: false, error};
+  }
   ctx.response.type = 'application/json';
   ctx.response.body = res;
 });

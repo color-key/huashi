@@ -21,21 +21,33 @@ const errors = {
   'MULTIPLE_FACE_FOUND: image_base64_1': '正脸的图像中出现多个人脸',
   'MULTIPLE_FACE_FOUND: image_base64_2': '左脸的图像中出现多个人脸',
   'MULTIPLE_FACE_FOUND: image_base64_3': '右脸的图像中出现多个人脸',
+  '413': '图片大小超过了2M',
   '': '人脸识别失败'
 };
 
-const save3DFiles = ({userId, face1, face2, face3}) => {
-  const form = {
-    "api_key": "oJLTb2ldY2YJK_HhtQR_l56ktD15dz6S",
-    // "api_key": "YD1bDeVM08o4KxxdMC3XXSgv9I-6jvIo",
-    "api_secret": "B6FtoG4LjPnrgCdvokKNsmEjovZH82KB",
-    // "api_secret": "-I4XVTxuEKMzuOmriXEyvjN_DEb-hvsb",
-    "image_base64_1": face1,
-    "image_base64_2": face2,
-    "image_base64_3": face3,
-    "texture": "1",
-    "mtl": "1",
-  };
+const save3DFiles = ({userId}) => {
+  const basePath = path.join(__dirname, 'public/face/'+userId);
+  const face1Path = path.join(basePath, '/face1');
+  const face2Path = path.join(basePath, '/face2');
+  const face3Path = path.join(basePath, '/face3');
+  let form = {};
+  try {
+    form = {
+      "api_key": "oJLTb2ldY2YJK_HhtQR_l56ktD15dz6S",
+      // "api_key": "YD1bDeVM08o4KxxdMC3XXSgv9I-6jvIo",
+      "api_secret": "B6FtoG4LjPnrgCdvokKNsmEjovZH82KB",
+      // "api_secret": "-I4XVTxuEKMzuOmriXEyvjN_DEb-hvsb",
+      "image_base64_1": fs.readFileSync(face1Path).toString('base64'),
+      "image_base64_2": fs.readFileSync(face2Path).toString('base64'),
+      "image_base64_3": fs.readFileSync(face3Path).toString('base64'),
+      "texture": "1",
+      "mtl": "1",
+    };
+  } catch (error) {
+    console.log(123);
+    console.log(error);
+  }
+  
   return new Promise((resolve) => {
     request.post({url:'https://api-cn.faceplusplus.com/facepp/v1/3dface', form}, function(error, response, body) {
       if (!error && response.statusCode == 200) {
@@ -44,7 +56,7 @@ const save3DFiles = ({userId, face1, face2, face3}) => {
           if(!fs.existsSync(storePath)){
             fs.mkdirSync(storePath);
           }
-          const basePath = path.join(__dirname, 'public/face/'+userId);
+          // const basePath = path.join(__dirname, 'public/face/'+userId);
           const res = JSON.parse(body);
           const obj_file = res.obj_file;
           const mtl_file = res.mtl_file;
@@ -52,33 +64,38 @@ const save3DFiles = ({userId, face1, face2, face3}) => {
           let objPath = path.join(basePath, '/face.obj');
           let mtlPath = path.join(basePath, '/face.mtl');
           let jpgPath = path.join(basePath, '/tex.jpg');
-          let face1Path = path.join(basePath, '/face1');
-          let face2Path = path.join(basePath, '/face2');
-          let face3Path = path.join(basePath, '/face3');
-          if(fs.existsSync(basePath)){
-            console.log(1);
+          // let face1Path = path.join(basePath, '/face1');
+          // let face2Path = path.join(basePath, '/face2');
+          // let face3Path = path.join(basePath, '/face3');
+          // if(fs.existsSync(basePath)){
             if(fs.existsSync(objPath)) fs.unlinkSync(objPath);
             if(fs.existsSync(mtlPath)) fs.unlinkSync(mtlPath);
             if(fs.existsSync(jpgPath)) fs.unlinkSync(jpgPath);
-            if(fs.existsSync(face1Path)) fs.unlinkSync(face1Path);
-            if(fs.existsSync(face2Path)) fs.unlinkSync(face2Path);
-            if(fs.existsSync(face3Path)) fs.unlinkSync(face3Path);
-          }else{
-            fs.mkdirSync(basePath);
-          }
+          //   if(fs.existsSync(face1Path)) fs.unlinkSync(face1Path);
+          //   if(fs.existsSync(face2Path)) fs.unlinkSync(face2Path);
+          //   if(fs.existsSync(face3Path)) fs.unlinkSync(face3Path);
+          // }else{
+          //   fs.mkdirSync(basePath);
+          // }
           fs.writeFileSync(objPath, Buffer.from(obj_file, 'base64'));
           fs.writeFileSync(mtlPath, Buffer.from(mtl_file, 'base64'));
           fs.writeFileSync(jpgPath, Buffer.from(texture_img, 'base64'));
-          fs.writeFileSync(face1Path, Buffer.from(face1, 'base64'));
-          fs.writeFileSync(face2Path, Buffer.from(face2, 'base64'));
-          fs.writeFileSync(face3Path, Buffer.from(face3, 'base64'));
+          // fs.writeFileSync(face1Path, Buffer.from(face1, 'base64'));
+          // fs.writeFileSync(face2Path, Buffer.from(face2, 'base64'));
+          // fs.writeFileSync(face3Path, Buffer.from(face3, 'base64'));
           resolve({success: true, error});
         } catch (error) {
           resolve({success: false, error: errors['']});
         }
+      }else if(response.statusCode === 413){
+        resolve({success: false, error: errors[response.statusCode+'']});
       }else{
-        const err = JSON.parse(body);
-        resolve({success: false, error: errors[err.error_message]||errors['']});
+        try {
+          const err = JSON.parse(body);
+          resolve({success: false, error: errors[err.error_message]||errors['']});
+        } catch (error) {
+          resolve({success: false, error: errors['']});
+        }
       }
     })
   })
@@ -133,7 +150,34 @@ const archiver3DFiles = (id, filename='face') => {
   })
 }
 
+const uploadFiles = (ctx) => {
+  // const { openid } = ctx.params;
+  const openid = ctx.request.body.userId;
+  const type = ctx.request.body.type;
+  const file = ctx.request.files.file;
+  const basePath = path.join(__dirname, 'public/face/'+openid);
+  
+  const face1Path = path.join(basePath, '/face1');
+  const face2Path = path.join(basePath, '/face2');
+  const face3Path = path.join(basePath, '/face3');
+
+  if(fs.existsSync(basePath)){
+    if(type === 0 && fs.existsSync(face1Path)) fs.unlinkSync(face1Path);
+    if(type === 1 && fs.existsSync(face2Path)) fs.unlinkSync(face2Path);
+    if(type === 2 && fs.existsSync(face3Path)) fs.unlinkSync(face3Path);
+  }else{
+    fs.mkdirSync(basePath);
+  }
+
+  const paths = [face1Path, face2Path, face3Path];
+  const reader = fs.createReadStream(file.path);
+  const filePath = paths[type];
+  const upStream = fs.createWriteStream(filePath);
+  reader.pipe(upStream);
+}
+
 module.exports = {
   save3DFiles,
-  archiver3DFiles
+  archiver3DFiles,
+  uploadFiles
 }

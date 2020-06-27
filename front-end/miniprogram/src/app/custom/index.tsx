@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Image, Button } from 'remax/one';
-import { chooseImage, getFileSystemManager, request, showToast, showLoading, hideLoading, navigateTo, showModal } from 'remax/wechat';
+import { chooseImage, request, showToast, showLoading, hideLoading, navigateTo, showModal, uploadFile } from 'remax/wechat';
 import {login} from '@/lib/login';
 import './index.scss';
 import {APPC} from '../style';
@@ -12,6 +12,11 @@ const CLASS_PREFIX = APPC+'-custom';
 export default () => {
   const [state, setState] = React.useState({faceFront: null, faceLeft: null, faceRight: null});
   const [disabled, setDisabled] = React.useState(false);
+  const [uploadF, setUploadF] = React.useState(false);
+  const [uploadL, setUploadL] = React.useState(false);
+  const [uploadR, setUploadR] = React.useState(false);
+  const [uploadError, setUploadError] = React.useState(0);
+  const openidRef = React.useRef();
 
   const handleAddPhoto = (side: 'faceFront'|'faceLeft'|'faceRight') => {
     chooseImage({
@@ -19,9 +24,16 @@ export default () => {
       sizeType: ['compressed'],
       sourceType: ['album', 'camera'],
       success (res) {
-        const tempFilePaths = res.tempFilePaths
-        console.log(tempFilePaths[0]);
-        setState({...state, [side]: tempFilePaths[0]});
+        const tempFilePaths = res.tempFilePaths;
+        const tempFilesSize = res.tempFiles[0].size;
+        if(tempFilesSize <= 2000000){
+          setState({...state, [side]: tempFilePaths[0]});
+        }else{
+          showToast({
+            title: "请上传不大于2M的图片",
+            icon: "none"
+          })
+        }
       }
     })
   }
@@ -51,57 +63,109 @@ export default () => {
       showLoading({
         title: '上传中',
       })
-      const fileSystemManager = getFileSystemManager();
-      const res1 = fileSystemManager.readFileSync(state.faceFront!, 'base64');
-      const res2 = fileSystemManager.readFileSync(state.faceLeft!, 'base64');
-      const res3 = fileSystemManager.readFileSync(state.faceRight!, 'base64');
       login().then((res: any) => {
         if(res.success){
-          request({
-            url: SERVER_URL+'/face',
-            method: 'POST',
-            data: {
-              userId: res.openid,
-              face1: res1,
-              face2: res2,
-              face3: res3,
+          openidRef.current = res.openid;
+          uploadFile({
+            url: SERVER_URL+'/faceUpload',
+            filePath: state.faceFront!,
+            name: 'file',
+            formData: {
+              'userId': res.openid,
+              'type': 0
             },
-            header: {
-              'content-type': 'application/json' // 默认值
-            },
-            success (res: any) {
-              console.log(res, res.data)
-              setDisabled(false);
-              let error = null;
-              if(res.statusCode === 413){
-                error = '文件太大';
-              }else if(res.statusCode !== 200){
-                error = '人脸识别失败';
-              }else if(!res.data.success){
-                error = res.data.error;
-              }
-              hideLoading();
-              if(error){
-                showModal({
-                  title: '提示',
-                  content: error,
-                  showCancel: false,
-                })
+            success (res){
+              const data: any = JSON.parse(res.data);
+              if(data.success){
+                setUploadF(true);
               }else{
-                // navigateTo({url: "/pages/face3D/index"});
+                setUploadError(1);
               }
-            },
-            fail(res){
-              console.log(res);
             }
           })
-        }else{
-          //
+          uploadFile({
+            url: SERVER_URL+'/faceUpload',
+            filePath: state.faceLeft!,
+            name: 'file',
+            formData: {
+              'userId': res.openid,
+              'type': 1
+            },
+            success (res){
+              const data: any = JSON.parse(res.data);
+              if(data.success){
+                setUploadL(true);
+              }else{
+                setUploadError(2);
+              }
+            }
+          })
+          uploadFile({
+            url: SERVER_URL+'/faceUpload',
+            filePath: state.faceRight!,
+            name: 'file',
+            formData: {
+              'userId': res.openid,
+              'type': 2
+            },
+            success (res){
+              const data: any = JSON.parse(res.data);
+              if(data.success){
+                setUploadR(true);
+              }else{
+                setUploadError(3);
+              }
+            }
+          })
         }
       })
-      
     }
   }
+
+  React.useEffect(() => {
+    console.log(uploadR, uploadL);
+    console.log(uploadF, uploadError);
+    if(uploadR && uploadL && uploadF && uploadError === 0){
+      request({
+        url: SERVER_URL+'/face',
+        method: 'POST',
+        data: {
+          userId: openidRef.current,
+        },
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success (res: any) {
+          console.log(res, res.data)
+          setDisabled(false);
+          let error = null;
+          if(res.statusCode !== 200){
+            error = '人脸识别失败';
+          }else if(!res.data.success){
+            error = res.data.error;
+          }
+          hideLoading();
+          if(error){
+            showModal({
+              title: '提示',
+              content: error,
+              showCancel: false,
+            })
+          }else{
+            navigateTo({url: "/pages/face3D/index"});
+          }
+        },
+        fail(res){
+          console.log(res);
+        },
+        complete(){
+          setUploadF(false);
+          setUploadL(false);
+          setUploadR(false);
+        }
+      })
+    }
+  }, [uploadF, uploadL, uploadR, uploadError]);
 
   return (
     <View className={CLASS_PREFIX+'-root'}>
