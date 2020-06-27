@@ -47,8 +47,8 @@ function Row(props: { row: OrderType, onAudit: (row: OrderType) => void, onSend:
     window.open(PATH_PREFIX+'/face?id='+id);
   }, []);
 
-  const handleDownloadFace = React.useCallback((id: number) => {
-    postJson({path: BASE_URL+'/faceDownload', data: {id}}).then(res => {
+  const handleDownloadFace = React.useCallback((id: number, orderNo: string) => {
+    postJson({path: BASE_URL+'/faceDownload', data: {id, filename: 'face-'+orderNo}}).then(res => {
       if(res.success){
         window.open(res.result);
       }
@@ -79,7 +79,7 @@ function Row(props: { row: OrderType, onAudit: (row: OrderType) => void, onSend:
           <IconButton size="small" onClick={() => handleLookFace(row.id)}>
             <FindInPageIcon />
           </IconButton>
-          <IconButton size="small" onClick={() => handleDownloadFace(row.id)}>
+          <IconButton size="small" onClick={() => handleDownloadFace(row.id, row.order_no)}>
             <CloudDownloadIcon />
           </IconButton>
         </TableCell>

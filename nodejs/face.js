@@ -84,7 +84,7 @@ const save3DFiles = ({userId, face1, face2, face3}) => {
   })
 }
 
-const archiver3DFiles = (id) => {
+const archiver3DFiles = (id, filename='face') => {
   return new Promise((resolve) => {
     const name1 = 'face.obj';
     const name2 = 'face.mtl';
@@ -99,7 +99,7 @@ const archiver3DFiles = (id) => {
     const targetPath4 = path.join(targetPath, '/'+name4);
     const targetPath5 = path.join(targetPath, '/'+name5);
     const targetPath6 = path.join(targetPath, '/'+name6);
-    const output = fs.createWriteStream(targetPath + '/face.zip');
+    const output = fs.createWriteStream(targetPath + '/'+filename+'.zip');
     const archive = archiver('zip', {
       zlib: { level: 9 } // Sets the compression level.
     });
