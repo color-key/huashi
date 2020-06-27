@@ -31,8 +31,9 @@ router.post('/face', async (ctx, next) => {
 
 router.post('/faceDownload', async (ctx, next) => {
   const id = ctx.request.body.id;
+  const filename = ctx.request.body.filename || 'face';
   const archiver3DFilesRes = await archiver3DFiles(id);
-  const downloadUrl = '/face/'+id+'/face.zip';
+  const downloadUrl = '/face/'+id+'/'+filename+'.zip';
   archiver3DFilesRes.result = downloadUrl;
   ctx.response.type = 'application/json';
   ctx.response.body = archiver3DFilesRes;
