@@ -16,6 +16,7 @@ import Paper from '@material-ui/core/Paper';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import FindInPageIcon from '@material-ui/icons/FindInPage';
+import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import {getJson, postJson} from '@fay-react/lib/fetch';
 import {BASE_URL, PATH_PREFIX} from '@/env';
 import {OrderType, SearchStateType} from './index';
@@ -46,6 +47,14 @@ function Row(props: { row: OrderType, onAudit: (row: OrderType) => void, onSend:
     window.open(PATH_PREFIX+'/face?id='+id);
   }, []);
 
+  const handleDownloadFace = React.useCallback((id: number) => {
+    postJson({path: BASE_URL+'/faceDownload', data: {id}}).then(res => {
+      if(res.success){
+        window.open(res.result);
+      }
+    })
+  }, []);
+
   return (
     <React.Fragment>
       <TableRow className={classes.root}>
@@ -69,6 +78,9 @@ function Row(props: { row: OrderType, onAudit: (row: OrderType) => void, onSend:
         <TableCell align="center">
           <IconButton size="small" onClick={() => handleLookFace(row.id)}>
             <FindInPageIcon />
+          </IconButton>
+          <IconButton size="small" onClick={() => handleDownloadFace(row.id)}>
+            <CloudDownloadIcon />
           </IconButton>
         </TableCell>
         <TableCell align="center">
