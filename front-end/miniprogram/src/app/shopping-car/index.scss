@@ -5,8 +5,9 @@
   &-root {
     width: 100%;
     height: 100%;
-    // display: flex;
-    // justify-content: center;
+  }
+  &-loading{
+    display: none;
   }
   &-empty{
     display: flex;
@@ -14,8 +15,12 @@
     width: 100%;
     align-items: center;
     justify-content: center;
-    font-size: 72px;
+    font-size: 36px;
+    text-align: center;
     color: #666666;
+    & view{
+      margin-bottom: 40px;
+    }
   }
   &-container{
     margin-bottom: 150px;

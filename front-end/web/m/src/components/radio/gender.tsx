@@ -6,15 +6,14 @@ import FormControl from '@material-ui/core/FormControl';
 
 interface Props{
   onChange: Function
-  defaultValue: number
+  value: number
 }
 
-export default ({onChange, defaultValue}: Props) => {
-  const [value, setValue] = React.useState(defaultValue);
+export default ({onChange, value}: Props) => {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange && onChange(event);
-    setValue(Number((event.target as HTMLInputElement).value));
+    // setValue(Number((event.target as HTMLInputElement).value));
   };
 
   return (

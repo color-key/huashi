@@ -7,7 +7,11 @@ const fs = require('fs');
 const path = require('path');
 const {save3DFiles} = require('./face');
 const {addUser, getUserByOpenid, login, updUser, getUser, updUserStatus, updUserAddress} = require('./user');
-const {addShoppingCar, getShoppingCar, addOrderNumber, getOrder, updOrderStatus} = require('./shopping-car');
+const {
+  addShoppingCar, updShoppingCar, getShoppingCar,
+  addOrderNumber, getOrder, updOrderStatus, updOrderLogisticsNo,
+  removeShoppingCar, getShoppingCarById
+} = require('./shopping-car');
 const manager = require('./manager');
 const {auth} = require('./auth');
 
@@ -92,10 +96,29 @@ router.post('/shopping-car/add', async (ctx, next) => {
   ctx.response.body = res;
 });
 
+router.post('/shopping-car/upd', async (ctx, next) => {
+  const res = await updShoppingCar(ctx.request.body);
+  ctx.response.type = 'application/json';
+  ctx.response.body = res;
+});
+
 router.get('/shopping-car/:openid', async (ctx, next) => {
-  console.log(ctx);
   const { openid } = ctx.params;
   const res = await getShoppingCar(openid);
+  ctx.response.type = 'application/json';
+  ctx.response.body = res;
+});
+
+router.get('/getShoppingCarById/:id', async (ctx, next) => {
+  const { id } = ctx.params;
+  console.log(id);
+  const res = await getShoppingCarById(id);
+  ctx.response.type = 'application/json';
+  ctx.response.body = res;
+});
+
+router.post('/shopping-car/remove', async (ctx, next) => {
+  const res = await removeShoppingCar(ctx.request.body);
   ctx.response.type = 'application/json';
   ctx.response.body = res;
 });
@@ -109,7 +132,7 @@ router.post('/order/add', async (ctx, next) => {
 router.get('/order/:openid', async (ctx, next) => {
   const { openid } = ctx.params
   const authed = await auth(ctx);
-  if(authed || openid==='find'){
+  if(authed || openid!=='find'){
     const res = await getOrder(openid, ctx);
     ctx.response.type = 'application/json';
     ctx.response.body = res;
@@ -120,6 +143,12 @@ router.get('/order/:openid', async (ctx, next) => {
 
 router.post('/updOrderStatus', async (ctx, next) => {
   const res = await updOrderStatus(ctx.request.body);
+  ctx.response.type = 'application/json';
+  ctx.response.body = res;
+});
+
+router.post('/updOrderLogisticsNo', async (ctx, next) => {
+  const res = await updOrderLogisticsNo(ctx.request.body);
   ctx.response.type = 'application/json';
   ctx.response.body = res;
 });

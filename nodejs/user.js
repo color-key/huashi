@@ -69,7 +69,8 @@ const updUserStatus = async (data) => {
 }
 
 const updUserAddress = async (data) => {
-  const sql = 'UPDATE '+mysqlTable+' SET address=\''+data.address+'\' WHERE openid="'+data.id+'"';
+  const telNumber = JSON.parse(data.address).telNumber;
+  const sql = 'UPDATE '+mysqlTable+' SET address=\''+data.address+'\', mobile=\''+telNumber+'\' WHERE openid="'+data.id+'"';
   const res = await query(sql);
   return res;
 }

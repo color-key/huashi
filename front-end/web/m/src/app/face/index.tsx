@@ -17,15 +17,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }))
 
-// declare var wx: any;
-
 export default () => {
   const classes = useStyles();
 
   const handleButton = () => {
     const id = getQueryString('id');
-    Router.push(PATH_PREFIX+'/order?id='+id);
-    // wx.miniProgram.navigateTo({url: '/pages/order/index'})
+    Router.push(PATH_PREFIX+'/order?userId='+id);
   }
 
   React.useEffect(() => {

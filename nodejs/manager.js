@@ -2,6 +2,7 @@ const {query} = require('./mysql');
 const {getQueryString} = require('./lib/query');
 const moment = require('moment');
 const shortid = require('shortid');
+const crypto = require('crypto');
 
 const mysqlTable = "manager";
 
@@ -20,8 +21,12 @@ const updPassword = async (data) => {
 }
 
 const login = async (data) => {
+  const hash = crypto.createHash('sha256');
+  hash.update(data.password);
+  const pwd = hash.digest('hex');
+  console.log(pwd);
   const sql = 'SELECT id,username,creation_datetime,token FROM '+mysqlTable+' WHERE `username` = ? and `password` = ?';
-  const args = [data.username, data.password];
+  const args = [data.username, pwd];
   const res = await query(sql, args);
   return res;
 }

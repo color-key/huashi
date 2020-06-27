@@ -1,20 +1,21 @@
 import React from 'react';
 import { usePageEvent } from 'remax/macro';
 import { View, Image, Button } from 'remax/one';
-import { request, showToast, showLoading, hideLoading, navigateTo, switchTab } from 'remax/wechat';
+import { request, showToast, showLoading, hideLoading, navigateTo, switchTab, showModal } from 'remax/wechat';
 import './index.scss';
 import {APPC} from '../style';
 import ProductCard from '../product-card';
 import {login} from '@/lib/login';
 import {SERVER_URL} from '@/env';
 import {chooseAddress} from '@/lib/wechat';
+import clsx from 'clsx';
 
 const CLASS_PREFIX = APPC+'-shopping-car';
 
 export default () => {
   const [disabled, setDisabled] = React.useState(false);
   const [data, setData] = React.useState([]);
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
   const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
 
   const getData = React.useCallback(() => {
@@ -91,19 +92,89 @@ export default () => {
     })
   }
 
+  const handleEdit = (id: number, userId: string) => {
+    navigateTo({url: '/pages/shopping-car/edit/index?userId='+userId+'&id='+id});
+  }
+
+  const handleRemove = (id: number) => {
+    showModal({
+      title: '提示',
+      content: '您确定将其从购物车中删除？',
+      success (res) {
+        if (res.confirm) {
+          showLoading();
+          request({
+            url: SERVER_URL+'/shopping-car/remove',
+            method: 'POST',
+            header: {
+              'content-type': 'application/json' // 默认值
+            },
+            data: {
+              id,
+            },
+            success (res: any) {
+              getData();
+            },
+            complete(){
+              hideLoading();
+            }
+          })
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
+  }
+
+  const handleGetuserinfo = (e: any) => {
+    console.log(e);
+    showLoading();
+    if(e.detail.userInfo){
+      login().then((res: any) => {
+        if(res.success){
+          console.log(res.openid);
+          hideLoading();
+          navigateTo({url: '/pages/custom/index'});
+        }else{
+          //
+          hideLoading();
+        }
+      })
+    }
+  }
+
   return (
-    <View className={CLASS_PREFIX+'-root'}>
+    <View className={clsx(CLASS_PREFIX+'-root', {[CLASS_PREFIX+'-loading']: loading})}>
       {
-        data.length === 0 && !loading ?
+        data.length === 0 ?
         <View className={CLASS_PREFIX+'-empty'}>
-          空空如也
+          <View>
+            <View>您尚未添加任何定制信息</View>
+            <View>可点击下方定制按钮进行定制</View>
+            <View>
+              <Button
+                wechat-lang="zh_CN"
+                wechat-open-type="getUserInfo"
+                wechat-bindgetuserinfo={handleGetuserinfo}
+              >
+                定制
+              </Button>
+            </View>
+          </View>
         </View>
         :
         <View className={CLASS_PREFIX+'-container'}>
           {
             data.map((item: any) => {
               return (
-                <ProductCard key={item.id} data={item} selected={selectedIds.includes(item.id)} onTap={() => handleChange(!selectedIds.includes(item.id), item.id)}/>
+                <ProductCard
+                  key={item.id}
+                  data={item}
+                  selected={selectedIds.includes(item.id)}
+                  onTap={() => handleChange(!selectedIds.includes(item.id), item.id)}
+                  onEdit={handleEdit}
+                  onRemove={handleRemove}
+                />
               )
             })
           }

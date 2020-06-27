@@ -13,6 +13,7 @@ export default () => {
 }
 
 export interface OrderType {
+  id?: number
   name: string //客户姓名
   gender: number //性别 0-男 1-女
   mobile: string //后四位
@@ -26,4 +27,5 @@ export interface OrderType {
   interpupillaryDistance: string //瞳距
   pointPupilRight: string //右眼点瞳
   pointPupilLeft: string //左眼点瞳
+  remark: string //左眼点瞳
 }

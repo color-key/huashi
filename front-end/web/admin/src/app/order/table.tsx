@@ -20,6 +20,7 @@ import {getJson, postJson} from '@fay-react/lib/fetch';
 import {BASE_URL, PATH_PREFIX} from '@/env';
 import {OrderType, SearchStateType} from './index';
 import AuditDialog from './audit-dialog';
+import AddLogisticsNoDialog from './add-logistics-no-dialog';
 
 const useRowStyles = makeStyles({
   root: {
@@ -36,7 +37,8 @@ const statusText = {
 
 function Row(props: { row: OrderType, onAudit: (row: OrderType) => void, onSend: (row: OrderType) => void}) {
   const { row } = props;
-  const [open, setOpen] = React.useState({optical: false, logistics: false});
+  const initOpenState = {optical: false, logistics: false, customer: false, remark: false};
+  const [open, setOpen] = React.useState(initOpenState);
   const classes = useRowStyles();
   const addressObj: any = row.address && JSON.parse(row.address);
 
@@ -52,9 +54,15 @@ function Row(props: { row: OrderType, onAudit: (row: OrderType) => void, onSend:
         </TableCell>
         <TableCell>{row.creation_datetime}</TableCell>
         <TableCell>{statusText[row.status]}</TableCell>
+        <TableCell>
+          {row.name}
+          <IconButton aria-label="expand row" size="small" onClick={() => setOpen({...initOpenState, customer: !open.customer})}>
+            {open.customer ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          </IconButton>
+        </TableCell>
         <TableCell>{row.frame_model}</TableCell>
         <TableCell>
-          <IconButton aria-label="expand row" size="small" onClick={() => setOpen({logistics: false, optical: !open.optical})}>
+          <IconButton aria-label="expand row" size="small" onClick={() => setOpen({...initOpenState, optical: !open.optical})}>
             {open.optical ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
@@ -64,7 +72,7 @@ function Row(props: { row: OrderType, onAudit: (row: OrderType) => void, onSend:
           </IconButton>
         </TableCell>
         <TableCell align="center">
-          <IconButton aria-label="expand row" size="small" onClick={() => setOpen({optical: false, logistics: !open.logistics})}>
+          <IconButton aria-label="expand row" size="small" onClick={() => setOpen({...initOpenState, logistics: !open.logistics})}>
             {
               addressObj ?
               open.logistics ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />
@@ -73,7 +81,16 @@ function Row(props: { row: OrderType, onAudit: (row: OrderType) => void, onSend:
             }
           </IconButton>
         </TableCell>
-        <TableCell>123123123</TableCell>
+        <TableCell>
+          {row.remark && row.remark.substring(0, 8)}
+          {
+            row.remark && row.remark.length > 8 &&
+            <IconButton aria-label="expand row" size="small" onClick={() => setOpen({...initOpenState, remark: !open.remark})}>
+              {open.remark ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            </IconButton>
+          }
+          
+        </TableCell>
         <TableCell align="center">
           {
             row.status === 'PENDING' &&
@@ -87,8 +104,19 @@ function Row(props: { row: OrderType, onAudit: (row: OrderType) => void, onSend:
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={9}>
-          <Collapse in={open.optical || open.logistics} timeout="auto" unmountOnExit>
+          <Collapse in={open.customer || open.optical || open.logistics || open.remark} timeout="auto" unmountOnExit>
             <Box margin={1}>
+              {
+                open.customer &&
+                <div>
+                  <Typography variant="h6" gutterBottom component="div">
+                    客户信息：
+                  </Typography>
+                  <Typography variant="body2" gutterBottom component="div">
+                    姓名：{row.name}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;手机号后四位：{row.mobile}&nbsp;&nbsp;&nbsp;性别：{row.gender===0?'男':row.gender===1?'女':'未知'}
+                  </Typography>
+                </div>
+              }
               {
                 open.optical &&
                 <div>
@@ -107,6 +135,9 @@ function Row(props: { row: OrderType, onAudit: (row: OrderType) => void, onSend:
                   <Typography variant="body2" gutterBottom component="div">
                     柱镜：{row.cyl_mirror_left} 棱镜：{row.prism_left} 轴向：{row.axial_left} 点瞳：{row.point_pupil_left}
                   </Typography>
+                  <Typography variant="body2" gutterBottom component="div">
+                    双眼瞳距：{row.interpupillary_distance}
+                  </Typography>
                 </div>
               }
               {
@@ -116,7 +147,21 @@ function Row(props: { row: OrderType, onAudit: (row: OrderType) => void, onSend:
                     物流信息：
                   </Typography>
                   <Typography variant="body2" gutterBottom component="div">
-                    {addressObj.userName} {addressObj.telNumber} {addressObj.postalCode} {addressObj.provinceName} {addressObj.cityName} {addressObj.countyName} {addressObj.detailInfo}
+                    快递单号：{row.logistics_no && row.logistics_no.length>0 ? row.logistics_no : '暂无'}
+                  </Typography>
+                  <Typography variant="body2" gutterBottom component="div">
+                    地址：{addressObj.userName} {addressObj.telNumber} {addressObj.postalCode} {addressObj.provinceName} {addressObj.cityName} {addressObj.countyName} {addressObj.detailInfo}
+                  </Typography>
+                </div>
+              }
+              {
+                open.remark &&
+                <div>
+                  <Typography variant="h6" gutterBottom component="div">
+                    备注信息：
+                  </Typography>
+                  <Typography variant="body2" gutterBottom component="div">
+                    {row.remark}
                   </Typography>
                 </div>
               }
@@ -140,6 +185,7 @@ export default ({type='ALL', userId, search}: Props) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [auditOpen, setAuditOpen] = React.useState<OrderType|null>(null);
+  const [logisticsOpen, setLogisticsOpen] = React.useState<OrderType|null>(null);
 
   const handleChangePage = (_event: unknown, newPage: number) => {
     setPage(newPage);
@@ -166,6 +212,10 @@ export default ({type='ALL', userId, search}: Props) => {
   const handleAudit = (row: OrderType) => {
     setAuditOpen(row);
   }
+  
+  const handleSend = (row: OrderType) => {
+    setLogisticsOpen(row);
+  }
 
   const handleClose = (id?: number, value?: string) => {
     if(value){
@@ -175,15 +225,18 @@ export default ({type='ALL', userId, search}: Props) => {
         }
       })
     }
-    setAuditOpen(null);
+    auditOpen && setAuditOpen(null);
   }
 
-  const handleSend = (row: OrderType) => {
-    postJson({path: BASE_URL+'/updOrderStatus', data: {id: row.id, status: 'SEND'}}).then((res) => {
-      if(res.success){
-        getData(search);
-      }
-    })
+  const handleSendClose = (id?: number, value?: string) => {
+    if(value){
+      postJson({path: BASE_URL+'/updOrderLogisticsNo', data: {id, logistics_no: value}}).then((res) => {
+        if(res.success){
+          getData(search);
+        }
+      })
+    }
+    logisticsOpen && setLogisticsOpen(null);
   }
 
   const _data = data.filter((item: OrderType)=> (type === 'ALL' || item.status === type));
@@ -197,6 +250,7 @@ export default ({type='ALL', userId, search}: Props) => {
               <TableCell>订单编号</TableCell>
               <TableCell>下单时间</TableCell>
               <TableCell>订单状态</TableCell>
+              <TableCell>客户</TableCell>
               <TableCell>镜框型号</TableCell>
               <TableCell>光度信息</TableCell>
               <TableCell align="center">人脸模型</TableCell>
@@ -222,6 +276,7 @@ export default ({type='ALL', userId, search}: Props) => {
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
       <AuditDialog data={auditOpen} open={auditOpen!==null} onClose={handleClose}/>
+      <AddLogisticsNoDialog data={logisticsOpen} open={logisticsOpen!==null} onClose={handleSendClose}/>
     </Paper>
   );
 }

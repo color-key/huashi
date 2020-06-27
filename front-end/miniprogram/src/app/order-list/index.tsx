@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Button } from 'remax/one';
+import { View } from 'remax/one';
 import { usePageEvent } from 'remax/macro';
 import { request, showLoading, hideLoading } from 'remax/wechat';
 import './index.scss';
@@ -7,13 +7,14 @@ import {APPC} from '../style';
 import ProductCard from '../product-card';
 import {login} from '@/lib/login';
 import {SERVER_URL} from '@/env';
+import clsx from 'clsx';
 
 const CLASS_PREFIX = APPC+'-order-list';
 
 export default () => {
   const [disabled, setDisabled] = React.useState(false);
   const [data, setData] = React.useState([]);
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
   const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
 
   const getData = React.useCallback(() => {
@@ -67,37 +68,13 @@ export default () => {
     }
   }
 
-  // const handleSubmit = () => {
-  //   showLoading();
-  //   setDisabled(true);
-  //   request({
-  //     url: 'http://localhost:3000/order/add',
-  //     // url: SERVER_URL+'/order/add',
-  //     method: 'POST',
-  //     header: {
-  //       'content-type': 'application/json' // 默认值
-  //     },
-  //     data: {
-  //       ids: selectedIds.join(',')
-  //     },
-  //     success (res: any) {
-  //       hideLoading();
-  //       getData();
-  //       navigateTo({url: '/pages/order-list/index'});
-  //     },
-  //     fail(){
-  //       hideLoading();
-  //     }
-  //   })
-  // }
-
   return (
-    <View className={CLASS_PREFIX+'-root'}>
+    <View className={clsx(CLASS_PREFIX+'-root', {[CLASS_PREFIX+'-loading']: loading})}>
       <View className={CLASS_PREFIX+'-container'}>
       {
-        data.length === 0 && !loading ?
+        data.length === 0 ?
         <View className={CLASS_PREFIX+'-empty'}>
-          空空如也
+          您尚未从购物车中提交任何定制信息
         </View>
         :
         <View className={CLASS_PREFIX+'-container'}>
@@ -116,11 +93,7 @@ export default () => {
           }
         </View>
       }
-        
       </View>
-      {/* <View className={CLASS_PREFIX+'-footer'}>
-        <Button disabled={disabled} className={CLASS_PREFIX+'-btn'}>删除</Button>
-      </View> */}
     </View>
   );
 };

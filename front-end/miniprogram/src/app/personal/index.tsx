@@ -40,6 +40,10 @@ export default () => {
     }
   }
 
+  const handleGetPhoneNumber = (e: any) => {
+    console.log(e);
+  }
+
   return (
     <View className={CLASS_PREFIX+'-root'}>
       {
@@ -54,6 +58,21 @@ export default () => {
               <View>
                 {user.country} {user.province} {user.city} 
               </View>
+              {/* <View>
+                <Button
+                  className={CLASS_PREFIX+'-phone'}
+                  wechat-open-type="getPhoneNumber"
+                  wechat-bindgetphonenumber={handleGetPhoneNumber}
+                  // wechat-lang="zh_CN"
+                  // wechat-open-type="getUserInfo"
+                  // wechat-bindgetuserinfo={handleGetuserinfo}
+                  // onGetPhoneNumber={handleGetuserinfo}
+                  // onClick={handleGetuserinfo}
+                  // onGetUserInfo={handleToCustom}
+                >
+                  点击上传手机号码
+                </Button>
+              </View> */}
             </View>
           </View>
           <Address/>

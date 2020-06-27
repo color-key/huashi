@@ -7,12 +7,12 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import TextField from "@/components/text-field";
+import MTextField from "@material-ui/core/TextField";
 import {OrderType} from './index';
 import Gender from '@/components/radio/gender';
 import {getQueryString} from '@fay-react/lib/router';
-import {postJson} from '@fay-react/lib/fetch';
-// import {getJson} from '@fay-react/lib/fetch';
-// import {MTLLoader} from '@/lib/three/examples/jsm/loaders/MTLLoader';
+import {postJson, getJson} from '@fay-react/lib/fetch';
+import {BASE_URL} from '@/env';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -65,22 +65,40 @@ export default () => {
     interpupillaryDistance: '',
     pointPupilRight: '',
     pointPupilLeft: '',
+    remark: '',
   }
   const [order, setOrder] = React.useState<OrderType>(initOrder);
   const [disabled, setDisabled] = React.useState(true);
   const [loading, setLoading] = React.useState(false);
-  const [id, setId] = React.useState<any>(null);
+  const [userId, setUserId] = React.useState<any>(null);
 
   React.useEffect(() => {
-    const _id = getQueryString('id');
-    setId(_id);
-    // setTimeout(() => {
-    //   // console.log(wx);
-    //   // wx.miniProgram.getEnv(function(res: any) { alert(res.miniprogram) })
-    //   // wx.miniProgram.redirectTo({url: 'pages/address/index'})
-    //   // wx.miniProgram.navigateBack();
-      
-    // }, 2000);
+    const _userId = getQueryString('userId');
+    setUserId(_userId);
+    const id = getQueryString('id');
+    getJson({path: BASE_URL+'/getShoppingCarById/'+id}).then(res=>{
+      console.log(res);
+      if(res.success && res.result[0]){
+        const _order = res.result[0];
+        setOrder({
+          id: _order.id,
+          name: _order.name,
+          gender: _order.gender,
+          mobile: _order.mobile,
+          frameModel: _order.frame_model,
+          cylMirrorRight: _order.cyl_mirror_right,
+          prismRight: _order.prism_right,
+          axialRight: _order.axial_right,
+          cylMirrorLeft: _order.cyl_mirror_left,
+          prismLeft: _order.prism_left,
+          axialLeft: _order.axial_left,
+          interpupillaryDistance: _order.interpupillary_distance,
+          pointPupilRight: _order.point_pupil_right,
+          pointPupilLeft: _order.point_pupil_left,
+          remark: _order.remark,
+        });
+      }
+    })
   }, [])
 
   const handleChange = (key: string) => (e: any) => {
@@ -97,9 +115,7 @@ export default () => {
   }, [JSON.stringify(order)]);
 
   const handleSubmit = () => {
-    // setLoading(true);
-    console.log(order);
-    postJson({path: '/api/shopping-car/add', data: {...order, openid: id}}).then(res => {
+    postJson({path: BASE_URL+'/shopping-car/'+(order.id?'upd':'add'), data: {...order, openid: userId}}).then(res => {
       console.log(res);
       if(res.success){
         wx.miniProgram.switchTab({
@@ -128,36 +144,56 @@ export default () => {
           <Grid container item xs={5} justify={"center"} alignItems={"center"}>
             <Grid container item xs={12} justify={"center"}>
               <Box pt={1}>
-                <TextField label={"客户姓名"} fullWidth onChange={handleChange('name')}/>
+                <TextField
+                  label={"客户姓名"}
+                  fullWidth
+                  value={order.name}
+                  onChange={handleChange('name')}
+                />
               </Box>
             </Grid>
             
             <Grid container item xs={12} justify={"center"}>
               <Box pt={1}>
-                <TextField label={"手机号后四位"} fullWidth onChange={handleChange('mobile')} inputProps={{maxLength: 4}}/>
+                <TextField
+                  label={"手机号后四位"}
+                  fullWidth
+                  value={order.mobile}
+                  onChange={handleChange('mobile')}
+                  inputProps={{maxLength: 4}}
+                />
               </Box>
             </Grid>
           </Grid>
           <Grid container item xs={6} justify={"flex-end"} alignItems={"center"}>
-            <Avatar className={classes.avatar} src={'/face/'+id+'/face1'} variant={"square"}/>
+            {
+              userId &&
+              <Avatar className={classes.avatar} src={'/face/'+userId+'/face1'} variant={"square"}/>
+            }
           </Grid>
           <Grid item xs={1}></Grid>
           
           <Grid container item xs={12}>
             <Box pl={1}>
-              <Gender onChange={handleChange('gender')} defaultValue={order.gender}/>
+              <Gender
+                onChange={handleChange('gender')}
+                value={Number(order.gender)}
+              />
             </Box>
           </Grid>
 
-          {/* <Grid item xs={1}></Grid> */}
           <Grid item xs={11}>
             <Box mt={1}>
-              <TextField label={"请录入所选镜架型号"} fullWidth onChange={handleChange('frameModel')}/>
+              <TextField
+                label={"请录入所选镜架型号"}
+                fullWidth
+                value={order.frameModel}
+                onChange={handleChange('frameModel')}
+              />
             </Box>
           </Grid>
           <Grid item xs={1}></Grid>
   
-          {/* <Grid item xs={1}></Grid> */}
           <Grid item xs={10}>
             <Box mt={2}>
               <Typography>请录入个人光度信息</Typography>
@@ -167,41 +203,98 @@ export default () => {
 
           <Grid item xs={1}></Grid>
           <Grid item xs={3}>
-            <TextField label={"右眼柱镜"} fullWidth onChange={handleChange('cylMirrorRight')}/>
+            <TextField
+              label={"右眼柱镜"}
+              fullWidth
+              value={order.cylMirrorRight}
+              onChange={handleChange('cylMirrorRight')}
+            />
           </Grid>
           <Grid item xs={3}>
-            <TextField label={"右眼棱镜"} fullWidth onChange={handleChange('prismRight')}/>
+            <TextField
+              label={"右眼棱镜"}
+              fullWidth
+              value={order.prismRight}
+              onChange={handleChange('prismRight')}
+            />
           </Grid>
           <Grid item xs={3}>
-            <TextField label={"棱镜轴向"} fullWidth onChange={handleChange('axialRight')}/>
+            <TextField
+              label={"棱镜轴向"}
+              fullWidth
+              value={order.axialRight}
+              onChange={handleChange('axialRight')}
+            />
           </Grid>
           <Grid item xs={1}></Grid>
   
           <Grid item xs={1}></Grid>
           <Grid item xs={3}>
-            <TextField label={"左眼柱镜"} fullWidth onChange={handleChange('cylMirrorLeft')}/>
+            <TextField
+              label={"左眼柱镜"}
+              fullWidth
+              value={order.cylMirrorLeft}
+              onChange={handleChange('cylMirrorLeft')}
+            />
           </Grid>
           <Grid item xs={3}>
-            <TextField label={"左眼棱镜"} fullWidth onChange={handleChange('prismLeft')}/>
+            <TextField
+              label={"左眼棱镜"}
+              fullWidth
+              value={order.prismLeft}
+              onChange={handleChange('prismLeft')}
+            />
           </Grid>
           <Grid item xs={3}>
-            <TextField label={"棱镜轴向"} fullWidth onChange={handleChange('axialLeft')}/>
+            <TextField
+              label={"棱镜轴向"}
+              fullWidth
+              value={order.axialLeft}
+              onChange={handleChange('axialLeft')}
+            />
           </Grid>
           <Grid item xs={2}></Grid>
 
           <Grid item xs={1}></Grid>
           <Grid item xs={3}>
-            <TextField label={"双眼瞳距"} fullWidth onChange={handleChange('interpupillaryDistance')}/>
+            <TextField
+              label={"双眼瞳距"}
+              fullWidth
+              value={order.interpupillaryDistance}
+              onChange={handleChange('interpupillaryDistance')}
+            />
           </Grid>
           <Grid item xs={3}>
-            <TextField label={"右眼点瞳"} fullWidth onChange={handleChange('pointPupilRight')}/>
+            <TextField
+              label={"右眼点瞳"}
+              fullWidth
+              value={order.pointPupilRight}
+              onChange={handleChange('pointPupilRight')}
+            />
           </Grid>
           <Grid item xs={3}>
-            <TextField label={"左眼点瞳"} fullWidth onChange={handleChange('pointPupilLeft')}/>
+            <TextField
+              label={"左眼点瞳"}
+              fullWidth
+              value={order.pointPupilLeft}
+              onChange={handleChange('pointPupilLeft')}
+            />
           </Grid>
           <Grid item xs={2}></Grid>
-          
-          {/* <Grid item xs={1}></Grid> */}
+
+          <Grid item xs={11}>
+            <Box mt={1}>
+              <MTextField
+                label={"备注"}
+                multiline
+                fullWidth
+                value={order.remark}
+                onChange={handleChange('remark')}
+              />
+            </Box>
+          </Grid>
+          <Grid item xs={1}></Grid>
+
           <Grid container item xs={11}>
             <Box mt={1}>
               <Typography color={"secondary"}>请根据实际度数和数据填写，未确定部分可在购物车中通过”编辑“补充</Typography>

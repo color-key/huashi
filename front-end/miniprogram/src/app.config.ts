@@ -1,6 +1,6 @@
 const pages = [
   'pages/index/index', 'pages/shopping-car/index', "pages/personal/index", "pages/custom/index",
-  "pages/face3D/index", "pages/order-list/index"
+  "pages/face3D/index", "pages/order-list/index", "pages/shopping-car/edit/index"
 ];
 const color = '#FFFFFF';
 

@@ -54,6 +54,7 @@ const addShoppingCar = async (data) => {
     "point_pupil_right": data.pointPupilRight,
     "prism_left": data.prismLeft,
     "prism_right": data.prismRight,
+    "remark": data.remark,
     "wx_user_id": openid,
   };
   const res = await query(sql, args);
@@ -65,9 +66,46 @@ const addShoppingCar = async (data) => {
   return res;
 }
 
+const updShoppingCar = async (data) => {
+  const sql = 'UPDATE '+mysqlTable+' SET ?'+' WHERE id='+data.id;
+  const args = {
+    "update_datetime": new Date(),
+    "axial_left": data.axialLeft,
+    "axial_right": data.axialRight,
+    "cyl_mirror_left": data.cylMirrorLeft,
+    "cyl_mirror_right": data.cylMirrorRight,
+    "frame_model": data.frameModel,
+    "gender": data.gender,
+    "interpupillary_distance": data.interpupillaryDistance,
+    "mobile": data.mobile,
+    "name": data.name,
+    "point_pupil_left": data.pointPupilLeft,
+    "point_pupil_right": data.pointPupilRight,
+    "prism_left": data.prismLeft,
+    "prism_right": data.prismRight,
+    "remark": data.remark,
+  };
+  const res = await query(sql, args);
+  return res;
+}
+
 const getShoppingCar = async (openid) => {
   const sql = 'SELECT * FROM '+mysqlTable+' WHERE `wx_user_id` = ? and order_no is null';
   const args = [openid];
+  const res = await query(sql, args);
+  return res;
+}
+
+const getShoppingCarById = async (id) => {
+  const sql = 'SELECT * FROM '+mysqlTable+' WHERE `id` = ? and order_no is null';
+  const args = [id];
+  const res = await query(sql, args);
+  return res;
+}
+
+const removeShoppingCar = async (data) => {
+  const sql = 'DELETE FROM '+mysqlTable+' WHERE `id` = ?';
+  const args = [data.id];
   const res = await query(sql, args);
   return res;
 }
@@ -110,10 +148,20 @@ const updOrderStatus = async (data) => {
   return res;
 }
 
+const updOrderLogisticsNo = async (data) => {
+  const sql = 'UPDATE '+mysqlTable+' SET status="SEND", logistics_no="'+data.logistics_no+'" WHERE id='+data.id;
+  const res = await query(sql);
+  return res;
+}
+
 module.exports = {
   addShoppingCar,
   getShoppingCar,
+  getShoppingCarById,
   addOrderNumber,
   getOrder,
-  updOrderStatus
+  updShoppingCar,
+  updOrderStatus,
+  removeShoppingCar,
+  updOrderLogisticsNo
 }

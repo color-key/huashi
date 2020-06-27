@@ -54,6 +54,12 @@ function Row(props: { row: UserType, onAudit: (row: UserType) => void}) {
         <TableCell>
           {row.country} {row.province} {row.city}
         </TableCell>
+        <TableCell>
+          {addressObj && addressObj.userName}
+        </TableCell>
+        <TableCell>
+          {addressObj && addressObj.telNumber}
+        </TableCell>
         <TableCell>{row.creation_datetime}</TableCell>
         <TableCell align="center">{statusText[row.status]}</TableCell>
         <TableCell align="center">
@@ -172,6 +178,8 @@ export default ({type='ALL', search}: Props) => {
               <TableCell>头像</TableCell>
               <TableCell>昵称</TableCell>
               <TableCell>地区</TableCell>
+              <TableCell>联系人</TableCell>
+              <TableCell>联系电话</TableCell>
               <TableCell>注册时间</TableCell>
               <TableCell align="center">用户状态</TableCell>
               <TableCell align="center">订单信息</TableCell>

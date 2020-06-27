@@ -56,5 +56,7 @@ export interface OrderType{
   prism_right: string,
   wx_user_id: string,
   address: string|null,
+  remark: string|null,
+  logistics_no: string|null,
   status: 'PENDING' | 'PASS' | 'REJECT' | 'SEND'
 }
