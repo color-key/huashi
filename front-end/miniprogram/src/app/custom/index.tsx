@@ -20,6 +20,7 @@ export default () => {
       sourceType: ['album', 'camera'],
       success (res) {
         const tempFilePaths = res.tempFilePaths
+        console.log(tempFilePaths[0]);
         setState({...state, [side]: tempFilePaths[0]});
       }
     })
@@ -87,7 +88,7 @@ export default () => {
                   showCancel: false,
                 })
               }else{
-                navigateTo({url: "/pages/face3D/index"});
+                // navigateTo({url: "/pages/face3D/index"});
               }
             },
             fail(res){

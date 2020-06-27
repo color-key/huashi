@@ -1,6 +1,7 @@
 const request = require('request');
 const fs = require('fs');
 const path = require('path');
+const archiver = require('archiver');
 
 const errors = {
   'IMAGE_ERROR_UNSUPPORTED_FORMAT: image_base64_1': '正脸的图像无法解析',
@@ -83,7 +84,56 @@ const save3DFiles = ({userId, face1, face2, face3}) => {
   })
 }
 
+const archiver3DFiles = (id) => {
+  return new Promise((resolve) => {
+    const name1 = 'face.obj';
+    const name2 = 'face.mtl';
+    const name3 = 'tex.jpg';
+    const name4 = 'face1';
+    const name5 = 'face2';
+    const name6 = 'face3';
+    const targetPath = path.join(__dirname, 'public/face/'+id);
+    const targetPath1 = path.join(targetPath, '/'+name1);
+    const targetPath2 = path.join(targetPath, '/'+name2);
+    const targetPath3 = path.join(targetPath, '/'+name3);
+    const targetPath4 = path.join(targetPath, '/'+name4);
+    const targetPath5 = path.join(targetPath, '/'+name5);
+    const targetPath6 = path.join(targetPath, '/'+name6);
+    const output = fs.createWriteStream(targetPath + '/face.zip');
+    const archive = archiver('zip', {
+      zlib: { level: 9 } // Sets the compression level.
+    });
+    output.on('close', function() {
+      console.log(archive.pointer() + ' total bytes');
+      console.log('archiver has been finalized and the output file descriptor has closed.');
+      resolve({success: true});
+    });
+    output.on('end', function() {
+      console.log('Data has been drained');
+      resolve({success: false});
+    });
+    archive.on('warning', function(err) {
+      if (err.code === 'ENOENT') {
+      } else {
+        resolve({success: false, err});
+      }
+    });
+    
+    archive.on('error', function(err) {
+      resolve({success: false, err});
+    });
+    archive.pipe(output);
+    archive.append(fs.createReadStream(targetPath1), { name: name1 });
+    archive.append(fs.createReadStream(targetPath2), { name: name2 });
+    archive.append(fs.createReadStream(targetPath3), { name: name3 });
+    archive.append(fs.createReadStream(targetPath4), { name: name4 });
+    archive.append(fs.createReadStream(targetPath5), { name: name5 });
+    archive.append(fs.createReadStream(targetPath6), { name: name6 });
+    archive.finalize();
+  })
+}
 
 module.exports = {
-  save3DFiles
+  save3DFiles,
+  archiver3DFiles
 }

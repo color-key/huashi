@@ -5,7 +5,7 @@ const koaBody = require('koa-body');
 const request = require('request');
 const fs = require('fs');
 const path = require('path');
-const {save3DFiles} = require('./face');
+const {save3DFiles, archiver3DFiles} = require('./face');
 const {addUser, getUserByOpenid, login, updUser, getUser, updUserStatus, updUserAddress} = require('./user');
 const {
   addShoppingCar, updShoppingCar, getShoppingCar,
@@ -24,8 +24,18 @@ router.post('/face', async (ctx, next) => {
   const face3 = ctx.request.body.face3;
   const userId = ctx.request.body.userId;
   const res = await save3DFiles({userId, face1, face2, face3});
+  archiver3DFiles(userId);
   ctx.response.type = 'application/json';
   ctx.response.body = res;
+});
+
+router.post('/faceDownload', async (ctx, next) => {
+  const id = ctx.request.body.id;
+  const archiver3DFilesRes = await archiver3DFiles(id);
+  const downloadUrl = '/face/'+data.id+'/face.zip';
+  archiver3DFilesRes.result = downloadUrl;
+  ctx.response.type = 'application/json';
+  ctx.response.body = archiver3DFilesRes;
 });
 
 router.post('/login', async (ctx, next) => {

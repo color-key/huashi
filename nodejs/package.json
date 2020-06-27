@@ -7,6 +7,7 @@
     "clear": "rm -rf ./public/face/*"
   },
   "dependencies": {
+    "archiver": "^4.0.1",
     "koa": "^2.12.1",
     "koa-body": "^4.2.0",
     "koa-bodyparser": "^4.3.0",
