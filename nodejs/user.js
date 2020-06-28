@@ -6,8 +6,12 @@ const {getQueryString} = require('./lib/query');
 const moment = require('moment');
 
 const mysqlTable = "wx_user";
-const appid = 'wxfdcd2b6f1795fdf2';
-const secret = 'b2d4e3e742279f754273467f17a94fde';
+//天蕾测试
+// const appid = 'wxfdcd2b6f1795fdf2';
+// const secret = 'b2d4e3e742279f754273467f17a94fde';
+//huashi
+const appid = 'wx299ba757572dbc41';
+const secret = '0121eb22da01c16b491f4e1ee0147d4e';
 
 const login = ({code, userInfo}) => {
   const data = "?appid="+appid+"&secret="+secret+"&js_code="+code+"&grant_type=authorization_code";

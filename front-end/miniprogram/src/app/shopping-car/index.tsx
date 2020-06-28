@@ -133,8 +133,28 @@ export default () => {
       login().then((res: any) => {
         if(res.success){
           console.log(res.openid);
-          hideLoading();
-          navigateTo({url: '/pages/custom/index'});
+          request({
+            url: SERVER_URL+'/user/getByOpenid/'+res.openid,
+            method: 'GET',
+            header: {
+              'content-type': 'application/json' // 默认值
+            },
+            success (res: any) {
+              if(res.data.success && res.data.result[0]){
+                const user = res.data.result[0];
+                if(user.status === 'PASS'){
+                  navigateTo({url: '/pages/custom/index'});
+                }else if(user.status === 'REJECT'){
+                  showModal({title: '很抱歉！您的账户审核未通过，无法使用', showCancel: false});
+                }else{
+                  showModal({title: '很抱歉！您的账户在审核中，待审核通过后方可使用', showCancel: false});
+                }
+              }
+            },
+            complete(){
+              hideLoading();
+            }
+          })
         }else{
           //
           hideLoading();
@@ -146,7 +166,7 @@ export default () => {
   return (
     <View className={clsx(CLASS_PREFIX+'-root', {[CLASS_PREFIX+'-loading']: loading})}>
       {
-        data.length === 0 ?
+        data.length > 0 ?
         <View className={CLASS_PREFIX+'-empty'}>
           <View>
             <View>您尚未添加任何定制信息</View>

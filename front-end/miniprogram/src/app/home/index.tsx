@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, Image, Button, Text } from 'remax/one';
-import { getSystemInfoSync, navigateTo, showLoading, hideLoading, getLocation, Map } from 'remax/wechat';
+import { getSystemInfoSync, navigateTo, showLoading, showToast, hideLoading, request, getLocation, Map, showModal } from 'remax/wechat';
 import {login} from '@/lib/login';
 import './index.scss';
 import {APPC} from '../style';
 import Paper from '@/components/paper';
-import {STATIC_SERVER_URL} from '@/env';
+import {STATIC_SERVER_URL, SERVER_URL} from '@/env';
 import {getAuthLocation} from '@/lib/auth';
 const bmap = require('@/lib/bmap/bmap-wx.js');
 
@@ -33,10 +33,29 @@ export default () => {
       login().then((res: any) => {
         if(res.success){
           console.log(res.openid);
-          hideLoading();
-          navigateTo({url: '/pages/custom/index'});
+          request({
+            url: SERVER_URL+'/user/getByOpenid/'+res.openid,
+            method: 'GET',
+            header: {
+              'content-type': 'application/json' // 默认值
+            },
+            success (res: any) {
+              if(res.data.success && res.data.result[0]){
+                const user = res.data.result[0];
+                if(user.status === 'PASS'){
+                  navigateTo({url: '/pages/custom/index'});
+                }else if(user.status === 'REJECT'){
+                  showModal({title: '很抱歉！您的账户审核未通过，无法使用', showCancel: false});
+                }else{
+                  showModal({title: '很抱歉！您的账户在审核中，待审核通过后方可使用', showCancel: false});
+                }
+              }
+            },
+            complete(){
+              hideLoading();
+            }
+          })
         }else{
-          //
           hideLoading();
         }
       })
