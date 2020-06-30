@@ -2,6 +2,7 @@ const request = require('request');
 const fs = require('fs');
 const path = require('path');
 const archiver = require('archiver');
+const obj2gltf = require('obj2gltf');
 
 const errors = {
   'IMAGE_ERROR_UNSUPPORTED_FORMAT: image_base64_1': '正脸的图像无法解析',
@@ -68,6 +69,7 @@ const save3DFiles = (ctx) => {
           let objPath = path.join(basePath, '/face.obj');
           let mtlPath = path.join(basePath, '/face.mtl');
           let jpgPath = path.join(basePath, '/tex.jpg');
+          let gltfPath = path.join(basePath, '/face.gltf');
           // let face1Path = path.join(basePath, '/face1');
           // let face2Path = path.join(basePath, '/face2');
           // let face3Path = path.join(basePath, '/face3');
@@ -75,6 +77,7 @@ const save3DFiles = (ctx) => {
             if(fs.existsSync(objPath)) fs.unlinkSync(objPath);
             if(fs.existsSync(mtlPath)) fs.unlinkSync(mtlPath);
             if(fs.existsSync(jpgPath)) fs.unlinkSync(jpgPath);
+            if(fs.existsSync(gltfPath)) fs.unlinkSync(gltfPath);
           //   if(fs.existsSync(face1Path)) fs.unlinkSync(face1Path);
           //   if(fs.existsSync(face2Path)) fs.unlinkSync(face2Path);
           //   if(fs.existsSync(face3Path)) fs.unlinkSync(face3Path);
@@ -84,6 +87,10 @@ const save3DFiles = (ctx) => {
           fs.writeFileSync(objPath, Buffer.from(obj_file, 'base64'));
           fs.writeFileSync(mtlPath, Buffer.from(mtl_file, 'base64'));
           fs.writeFileSync(jpgPath, Buffer.from(texture_img, 'base64'));
+          obj2gltf(objPath).then(function(gltf) {
+            const data = Buffer.from(JSON.stringify(gltf));
+            fs.writeFileSync(gltfPath, data);
+          });
           // fs.writeFileSync(face1Path, Buffer.from(face1, 'base64'));
           // fs.writeFileSync(face2Path, Buffer.from(face2, 'base64'));
           // fs.writeFileSync(face3Path, Buffer.from(face3, 'base64'));
