@@ -96,9 +96,9 @@ export default () => {
                   <Image src={"/static/personal/location_on.png"} className={CLASS_PREFIX+'-location'}/>
                   <Text>{map[0].address}</Text>
                 </View>
-                <View className={CLASS_PREFIX+'-paper-container-map'}>
+                {/* <View className={CLASS_PREFIX+'-paper-container-map'}>
                 <Map id="map" longitude={map[0].longitude} latitude={map[0].latitude} scale={14} showLocation={true} markers={map} onMarkerClick={handleMarkerClick}></Map>
-                </View>
+                </View> */}
               </View>
             }
             <View className={CLASS_PREFIX+'-paper-container-show'}>

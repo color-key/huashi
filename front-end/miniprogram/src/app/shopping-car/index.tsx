@@ -166,7 +166,7 @@ export default () => {
   return (
     <View className={clsx(CLASS_PREFIX+'-root', {[CLASS_PREFIX+'-loading']: loading})}>
       {
-        data.length > 0 ?
+        data.length === 0 ?
         <View className={CLASS_PREFIX+'-empty'}>
           <View>
             <View>您尚未添加任何定制信息</View>

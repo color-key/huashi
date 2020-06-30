@@ -29,8 +29,8 @@ router.post('/face', async (ctx, next) => {
   // const face1 = ctx.request.body.face1;
   // const face2 = ctx.request.body.face2;
   // const face3 = ctx.request.body.face3;
-  const userId = ctx.request.body.userId;
-  const res = await save3DFiles({userId});
+  // const userId = ctx.request.body.userId;
+  const res = await save3DFiles(ctx);
   ctx.response.type = 'application/json';
   ctx.response.body = res;
 });

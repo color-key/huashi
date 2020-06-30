@@ -15,7 +15,7 @@ export default ({active}: Props) => {
 
   const handlePhone = () => {
     makePhoneCall({
-      phoneNumber: '1383838438'
+      phoneNumber: '17682345495'
     })
   }
 

@@ -17,6 +17,7 @@ export default () => {
   const [uploadR, setUploadR] = React.useState(false);
   const [uploadError, setUploadError] = React.useState(0);
   const openidRef = React.useRef();
+  const types = {faceFront: 0, faceLeft: 1, faceRight: 2}
 
   const handleAddPhoto = (side: 'faceFront'|'faceLeft'|'faceRight') => {
     chooseImage({
@@ -27,7 +28,37 @@ export default () => {
         const tempFilePaths = res.tempFilePaths;
         const tempFilesSize = res.tempFiles[0].size;
         if(tempFilesSize <= 2000000){
-          setState({...state, [side]: tempFilePaths[0]});
+          login().then((res: any) => {
+            if(res.success){
+              openidRef.current = res.openid;
+              uploadFile({
+                url: SERVER_URL+'/faceUpload',
+                filePath: state.faceFront!,
+                name: 'file',
+                formData: {
+                  'userId': res.openid,
+                  'type': types[side]
+                },
+                success (res){
+                  const data: any = JSON.parse(res.data);
+                  if(data.success){
+                    setState({...state, [side]: tempFilePaths[0]});
+                  }else{
+                    showToast({
+                      title: "图片上传失败，请重试",
+                      icon: "none"
+                    })
+                  }
+                },
+                fail(){
+                  showToast({
+                    title: "图片上传失败，请重试",
+                    icon: "none"
+                  })
+                }
+              })
+            }
+          })
         }else{
           showToast({
             title: "请上传不大于2M的图片",
@@ -48,89 +79,18 @@ export default () => {
         title: "请上传人脸正脸照片",
         icon: "none"
       })
-    }else if(state.faceLeft === null){
-      showToast({
-        title: "请上传左侧侧脸照片",
-        icon: "none"
-      })
-    }else if(state.faceLeft === null){
-      showToast({
-        title: "请上传右侧侧脸照片",
-        icon: "none"
-      })
     }else{
       setDisabled(true);
       showLoading({
         title: '上传中',
       })
-      login().then((res: any) => {
-        if(res.success){
-          openidRef.current = res.openid;
-          uploadFile({
-            url: SERVER_URL+'/faceUpload',
-            filePath: state.faceFront!,
-            name: 'file',
-            formData: {
-              'userId': res.openid,
-              'type': 0
-            },
-            success (res){
-              const data: any = JSON.parse(res.data);
-              if(data.success){
-                setUploadF(true);
-              }else{
-                setUploadError(1);
-              }
-            }
-          })
-          uploadFile({
-            url: SERVER_URL+'/faceUpload',
-            filePath: state.faceLeft!,
-            name: 'file',
-            formData: {
-              'userId': res.openid,
-              'type': 1
-            },
-            success (res){
-              const data: any = JSON.parse(res.data);
-              if(data.success){
-                setUploadL(true);
-              }else{
-                setUploadError(2);
-              }
-            }
-          })
-          uploadFile({
-            url: SERVER_URL+'/faceUpload',
-            filePath: state.faceRight!,
-            name: 'file',
-            formData: {
-              'userId': res.openid,
-              'type': 2
-            },
-            success (res){
-              const data: any = JSON.parse(res.data);
-              if(data.success){
-                setUploadR(true);
-              }else{
-                setUploadError(3);
-              }
-            }
-          })
-        }
-      })
-    }
-  }
-
-  React.useEffect(() => {
-    console.log(uploadR, uploadL);
-    console.log(uploadF, uploadError);
-    if(uploadR && uploadL && uploadF && uploadError === 0){
       request({
         url: SERVER_URL+'/face',
         method: 'POST',
         data: {
           userId: openidRef.current,
+          face2: Boolean(state.faceLeft),
+          face3: Boolean(state.faceRight),
         },
         header: {
           'content-type': 'application/json' // 默认值
@@ -165,7 +125,15 @@ export default () => {
         }
       })
     }
-  }, [uploadF, uploadL, uploadR, uploadError]);
+  }
+
+  // React.useEffect(() => {
+  //   console.log(uploadR, uploadL);
+  //   console.log(uploadF, uploadError);
+  //   if(uploadR && uploadL && uploadF && uploadError === 0){
+      
+  //   }
+  // }, [uploadF, uploadL, uploadR, uploadError]);
 
   return (
     <View className={CLASS_PREFIX+'-root'}>

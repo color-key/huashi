@@ -25,7 +25,11 @@ const errors = {
   '': '人脸识别失败'
 };
 
-const save3DFiles = ({userId}) => {
+const save3DFiles = (ctx) => {
+  const face2 = ctx.request.body.face2;
+  const face3 = ctx.request.body.face3;
+  const userId = ctx.request.body.userId;
+
   const basePath = path.join(__dirname, 'public/face/'+userId);
   const face1Path = path.join(basePath, '/face1');
   const face2Path = path.join(basePath, '/face2');
@@ -38,11 +42,11 @@ const save3DFiles = ({userId}) => {
       "api_secret": "B6FtoG4LjPnrgCdvokKNsmEjovZH82KB",
       // "api_secret": "-I4XVTxuEKMzuOmriXEyvjN_DEb-hvsb",
       "image_base64_1": fs.readFileSync(face1Path).toString('base64'),
-      "image_base64_2": fs.readFileSync(face2Path).toString('base64'),
-      "image_base64_3": fs.readFileSync(face3Path).toString('base64'),
       "texture": "1",
       "mtl": "1",
     };
+    face2 && (form["image_base64_2"] = fs.readFileSync(face2Path).toString('base64'));
+    face3 && (form["image_base64_3"] = fs.readFileSync(face3Path).toString('base64'));
   } catch (error) {
     console.log(123);
     console.log(error);
