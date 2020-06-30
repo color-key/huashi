@@ -1,5 +1,5 @@
 import React from 'react';
-import T3D from './3D';
+import T3D from './GTLF3D';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Router from 'next/router';

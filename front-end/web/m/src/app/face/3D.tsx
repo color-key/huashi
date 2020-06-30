@@ -1,7 +1,7 @@
 import React from 'react';
 import {makeStyles} from "@material-ui/core/styles";
 import * as THREE from '@/lib/three';
-// import {MTLLoader} from '@/lib/three/examples/jsm/loaders/MTLLoader';
+import {MTLLoader} from '@/lib/three/examples/jsm/loaders/MTLLoader';
 import {OBJLoader} from '@/lib/three/examples/jsm/loaders/OBJLoader';
 import { OrbitControls } from '@/lib/three/examples/jsm/controls/OrbitControls';
 import {getQueryString} from '@fay-react/lib/router';
@@ -96,15 +96,20 @@ export default () => {
     }
     const onError = () => {};
 
-    const loader = new OBJLoader();
+    const objLoader = new OBJLoader();
+    const mtlLoader = new MTLLoader();
 
-    loader.load( '/face/'+id+'/face.obj', ( obj ) => {
-      obj.traverse( function ( child: any ) {
-        if ( child.isMesh ) child.material.map = texture;
-      } );
-      // obj.position.y = - 95;
-      scene.add( obj );
-    }, onProgress, onError );
+    mtlLoader.load('/face/'+id+'/face.mtl', function(materials) {
+      materials.preload();
+      objLoader.setMaterials(materials);
+      objLoader.load( '/face/'+id+'/face.obj', ( obj ) => {
+        obj.traverse( function ( child: any ) {
+          if ( child.isMesh ) child.material.map = texture;
+        } );
+        // obj.position.y = - 95;
+        scene.add( obj );
+      }, onProgress, onError );
+    });
     const renderer = new THREE.WebGLRenderer();
     renderer.setPixelRatio( container.devicePixelRatio );
     renderer.setSize( container.clientWidth, container.clientHeight );
