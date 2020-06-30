@@ -33,7 +33,7 @@ export default () => {
               openidRef.current = res.openid;
               uploadFile({
                 url: SERVER_URL+'/faceUpload',
-                filePath: state.faceFront!,
+                filePath: tempFilePaths[0],
                 name: 'file',
                 formData: {
                   'userId': res.openid,
@@ -70,7 +70,7 @@ export default () => {
   }
 
   React.useEffect(() => {
-    setDisabled([state.faceFront, state.faceLeft, state.faceRight].includes(null))
+    setDisabled([state.faceFront].includes(null))
   }, [JSON.stringify(state)]);
 
   const handleUpload = () => {
