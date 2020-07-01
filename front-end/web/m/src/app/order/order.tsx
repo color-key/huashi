@@ -53,7 +53,7 @@ export default () => {
   
   const initOrder = {
     name: '',
-    gender: 2,
+    gender: 0,
     mobile: '',
     frameModel: '',
     cylMirrorRight: '',

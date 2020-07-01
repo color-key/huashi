@@ -12,10 +12,6 @@ const CLASS_PREFIX = APPC+'-custom';
 export default () => {
   const [state, setState] = React.useState({faceFront: null, faceLeft: null, faceRight: null});
   const [disabled, setDisabled] = React.useState(false);
-  const [uploadF, setUploadF] = React.useState(false);
-  const [uploadL, setUploadL] = React.useState(false);
-  const [uploadR, setUploadR] = React.useState(false);
-  const [uploadError, setUploadError] = React.useState(0);
   const openidRef = React.useRef();
   const types = {faceFront: 0, faceLeft: 1, faceRight: 2}
 
@@ -25,6 +21,9 @@ export default () => {
       sizeType: ['compressed'],
       sourceType: ['album', 'camera'],
       success (res) {
+        showLoading({
+          title: '上传中',
+        });
         const tempFilePaths = res.tempFilePaths;
         const tempFilesSize = res.tempFiles[0].size;
         if(tempFilesSize <= 2000000){
@@ -55,6 +54,9 @@ export default () => {
                     title: "图片上传失败，请重试",
                     icon: "none"
                   })
+                },
+                complete(){
+                  hideLoading();
                 }
               })
             }
@@ -117,27 +119,17 @@ export default () => {
         },
         fail(res){
           console.log(res);
-        },
-        complete(){
-          setUploadF(false);
-          setUploadL(false);
-          setUploadR(false);
         }
       })
     }
   }
 
-  // React.useEffect(() => {
-  //   console.log(uploadR, uploadL);
-  //   console.log(uploadF, uploadError);
-  //   if(uploadR && uploadL && uploadF && uploadError === 0){
-      
-  //   }
-  // }, [uploadF, uploadL, uploadR, uploadError]);
-
   return (
     <View className={CLASS_PREFIX+'-root'}>
       <View className={CLASS_PREFIX+'-container'}>
+        <View className={CLASS_PREFIX+'-tip'}>
+          最小200*200像素，最大4096*4096像素，最大2MB 
+        </View>
         <View className={CLASS_PREFIX+'-front'} onTap={() => handleAddPhoto('faceFront')}>
           {
             state.faceFront ?
@@ -146,6 +138,7 @@ export default () => {
             <View className={CLASS_PREFIX+'-addPhoto'}>
               <View><AddPhotoIcon/></View>
               <View>上传人脸正脸照片</View>
+              <View>（必传）</View>
             </View>
           }
         </View>
@@ -158,6 +151,7 @@ export default () => {
               <View className={CLASS_PREFIX+'-addPhoto'}>
                 <View><AddPhotoIcon/></View>
                 <View>上传左侧侧脸照片</View>
+                <View>（选传）</View>
               </View>
             }
           </View>
@@ -169,9 +163,28 @@ export default () => {
               <View className={CLASS_PREFIX+'-addPhoto'}>
                 <View><AddPhotoIcon/></View>
                 <View>上传右侧侧脸照片</View>
+                <View>（选传）</View>
               </View>
             }
           </View>
+        </View>
+        <View className={CLASS_PREFIX+'-side-btns'}>
+          {
+            state.faceLeft ?
+            <Button style={state.faceLeft ? {} : {display: 'none'}} className={CLASS_PREFIX+'-side-left-btn'} onTap={() => setState({...state, faceLeft: null})}>
+              删除
+            </Button>
+            :
+            <View className={CLASS_PREFIX+'-side-left-btn'}></View>
+          }
+          {
+            state.faceRight ?
+            <Button style={state.faceRight ? {} : {display: 'none'}} className={CLASS_PREFIX+'-side-right-btn'} onTap={() => setState({...state, faceRight: null})}>
+              删除
+            </Button>
+            :
+            <View className={CLASS_PREFIX+'-side-right-btn'}></View>
+          }
         </View>
         <Button disabled={disabled} className={CLASS_PREFIX+'-btn'} onTap={handleUpload}>脸部照片提交</Button>
       </View>

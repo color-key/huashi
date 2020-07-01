@@ -21,7 +21,7 @@ export default ({onChange, value}: Props) => {
       <RadioGroup row aria-label="gender" name="gender1" value={value} onChange={handleChange}>
         <FormControlLabel value={1} control={<Radio />} label="女士" />
         <FormControlLabel value={0} control={<Radio />} label="先生" />
-        <FormControlLabel value={2} control={<Radio />} label="其他" />
+        {/* <FormControlLabel value={2} control={<Radio />} label="其他" /> */}
       </RadioGroup>
     </FormControl>
   );
