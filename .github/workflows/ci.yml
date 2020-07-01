@@ -58,7 +58,7 @@ jobs:
         run: ssh-keyscan ${{ secrets.SERVER_HOST_NAME }} >> ~/.ssh/known_hosts
 
       - name: Run SSH Command
-        run: ssh root@$SERVER_HOST_NAME "echo 'Hello Github Actions' > actions.log"
+        run: ssh root@${{ secrets.SERVER_HOST_NAME }} "echo 'Hello Github Actions' > actions.log"
       # - name: Deploy test to Server
       #   run: mkdir /fay/test
       #   uses: easingthemes/ssh-deploy@v2.1.2
