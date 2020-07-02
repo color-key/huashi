@@ -66,6 +66,7 @@ export default () => {
     setProcess(Math.round( xhr.loaded / xhr.total * 100 ) + '%');
     console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
   },function (error) {
+    alert(error);
       console.log('load error!'+error);
   })
 
