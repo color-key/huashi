@@ -116,13 +116,14 @@ const getOrder = async (openid, ctx) => {
   const queryDataStr = ' and order_no like "%'+orderNo+'%" and name like "%'+username+'%"';
   let sql, args;
   if(openid === 'find'){
-    sql = 'SELECT * FROM '+mysqlTable+' WHERE order_no is not null order by creation_datetime desc';
+    sql = 'SELECT * FROM '+mysqlTable+' WHERE order_no is not null';
     args = [];
   }else{
-    sql = 'SELECT * FROM '+mysqlTable+' WHERE `wx_user_id` = ? and order_no is not null order by creation_datetime desc';
+    sql = 'SELECT * FROM '+mysqlTable+' WHERE `wx_user_id` = ? and order_no is not null';
     args = [openid];
   }
-  const res = await query(sql+queryDataStr, args);
+  const orderQueryString = ' order by creation_datetime desc';
+  const res = await query(sql+queryDataStr+orderQueryString, args);
   if(res.success){
     res.result.map((item) => {
       item.creation_datetime = moment(item.creation_datetime).format('YYYY/MM/DD HH:mm');
