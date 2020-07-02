@@ -90,14 +90,14 @@ const updShoppingCar = async (data) => {
 }
 
 const getShoppingCar = async (openid) => {
-  const sql = 'SELECT * FROM '+mysqlTable+' WHERE `wx_user_id` = ? and order_no is null';
+  const sql = 'SELECT * FROM '+mysqlTable+' WHERE `wx_user_id` = ? and order_no is null order by creation_datetime desc';
   const args = [openid];
   const res = await query(sql, args);
   return res;
 }
 
 const getShoppingCarById = async (id) => {
-  const sql = 'SELECT * FROM '+mysqlTable+' WHERE `id` = ? and order_no is null';
+  const sql = 'SELECT * FROM '+mysqlTable+' WHERE `id` = ? and order_no is null order by creation_datetime desc';
   const args = [id];
   const res = await query(sql, args);
   return res;
@@ -116,10 +116,10 @@ const getOrder = async (openid, ctx) => {
   const queryDataStr = ' and order_no like "%'+orderNo+'%" and name like "%'+username+'%"';
   let sql, args;
   if(openid === 'find'){
-    sql = 'SELECT * FROM '+mysqlTable+' WHERE order_no is not null';
+    sql = 'SELECT * FROM '+mysqlTable+' WHERE order_no is not null order by creation_datetime desc';
     args = [];
   }else{
-    sql = 'SELECT * FROM '+mysqlTable+' WHERE `wx_user_id` = ? and order_no is not null';
+    sql = 'SELECT * FROM '+mysqlTable+' WHERE `wx_user_id` = ? and order_no is not null order by creation_datetime desc';
     args = [openid];
   }
   const res = await query(sql+queryDataStr, args);
