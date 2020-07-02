@@ -111,10 +111,13 @@ export default () => {
       order.cylMirrorLeft.length > 0 && order.prismLeft.length > 0 && order.axialLeft.length > 0 && order.interpupillaryDistance.length > 0 && 
       order.pointPupilRight.length > 0 && order.pointPupilLeft.length > 0){
       setDisabled(false);
+    }else{
+      setDisabled(true);
     }
   }, [JSON.stringify(order)]);
 
   const handleSubmit = () => {
+    setLoading(true);
     postJson({path: BASE_URL+'/shopping-car/'+(order.id?'upd':'add'), data: {...order, openid: userId}}).then(res => {
       console.log(res);
       if(res.success){
