@@ -29,8 +29,8 @@ const saveFiles = (openid, id) => {
   fs.copyFileSync(mtlPath, mtlTargetPath);
   fs.copyFileSync(jpgPath, jpgTargetPath);
   fs.copyFileSync(face1Path, face1TargetPath);
-  fs.copyFileSync(face2Path, face2TargetPath);
-  fs.copyFileSync(face3Path, face3TargetPath);
+  if(fs.existsSync(face2Path)) fs.copyFileSync(face2Path, face2TargetPath);
+  if(fs.existsSync(face3Path)) fs.copyFileSync(face3Path, face3TargetPath);
 }
 
 const addShoppingCar = async (data) => {
