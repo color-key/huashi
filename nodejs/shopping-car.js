@@ -11,6 +11,7 @@ const saveFiles = (openid, id) => {
   const storePath = path.join(__dirname, 'public/face/'+openid);
   const targetPath = path.join(__dirname, 'public/face/'+id);
   fs.mkdirSync(targetPath);
+  let gltfPath = path.join(storePath, 'face.gltf');
   let objPath = path.join(storePath, 'face.obj');
   let mtlPath = path.join(storePath, 'face.mtl');
   let jpgPath = path.join(storePath, 'tex.jpg');
@@ -18,6 +19,7 @@ const saveFiles = (openid, id) => {
   let face2Path = path.join(storePath, 'face2');
   let face3Path = path.join(storePath, 'face3');
 
+  let gltfTargetPath = path.join(targetPath, 'face.gltf');
   let objTargetPath = path.join(targetPath, 'face.obj');
   let mtlTargetPath = path.join(targetPath, 'face.mtl');
   let jpgTargetPath = path.join(targetPath, 'tex.jpg');
@@ -25,6 +27,7 @@ const saveFiles = (openid, id) => {
   let face2TargetPath = path.join(targetPath, 'face2');
   let face3TargetPath = path.join(targetPath, 'face3');
   
+  if(fs.existsSync(gltfPath)) fs.copyFileSync(gltfPath, gltfTargetPath);
   fs.copyFileSync(objPath, objTargetPath);
   fs.copyFileSync(mtlPath, mtlTargetPath);
   fs.copyFileSync(jpgPath, jpgTargetPath);
