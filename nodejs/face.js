@@ -46,8 +46,16 @@ const save3DFiles = (ctx) => {
       "texture": "1",
       "mtl": "1",
     };
-    face2 && (form["image_base64_2"] = fs.readFileSync(face2Path).toString('base64'));
-    face3 && (form["image_base64_3"] = fs.readFileSync(face3Path).toString('base64'));
+    if(face2){
+      form["image_base64_2"] = fs.readFileSync(face2Path).toString('base64');
+    }else{
+      if(fs.existsSync(face2Path)) fs.unlinkSync(face2Path);
+    }
+    if(face3){
+      form["image_base64_3"] = fs.readFileSync(face3Path).toString('base64');
+    }else{
+      if(fs.existsSync(face3Path)) fs.unlinkSync(face3Path);
+    }
   } catch (error) {
     console.log(123);
     console.log(error);
