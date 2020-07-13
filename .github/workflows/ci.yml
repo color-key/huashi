@@ -3,8 +3,6 @@ name: huashi ci
 on:
   repository_dispatch:
     types: [opened, deleted]
-
-on:
   push:
     branches:
       - production
