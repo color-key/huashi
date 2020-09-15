@@ -13,6 +13,7 @@ const {
   removeShoppingCar, getShoppingCarById
 } = require('./shopping-car');
 const manager = require('./manager');
+const optometrySheet = require('./optometry-sheet');
 const {auth} = require('./auth');
 
 const app = new Koa();
@@ -148,6 +149,18 @@ router.get('/getShoppingCarById/:id', async (ctx, next) => {
 
 router.post('/shopping-car/remove', async (ctx, next) => {
   const res = await removeShoppingCar(ctx.request.body);
+  ctx.response.type = 'application/json';
+  ctx.response.body = res;
+});
+
+router.post('/optometry-sheet/upload', async (ctx, next) => {
+  let res;
+  try{
+    optometrySheet.uploadFile(ctx);
+    res = {success: true};
+  }catch(error){
+    res = {success: false, error};
+  }
   ctx.response.type = 'application/json';
   ctx.response.body = res;
 });
