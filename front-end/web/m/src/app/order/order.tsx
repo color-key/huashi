@@ -68,7 +68,7 @@ export default () => {
     remark: '',
   }
   const [order, setOrder] = React.useState<OrderType>(initOrder);
-  const [disabled, setDisabled] = React.useState(true);
+  // const [disabled, setDisabled] = React.useState(true);
   const [loading, setLoading] = React.useState(false);
   const [userId, setUserId] = React.useState<any>(null);
 
@@ -105,16 +105,16 @@ export default () => {
     setOrder({...order, [key]: e.target.value});
   }
 
-  React.useEffect(() => {
-    if(order.name.length > 0 && order.mobile.length > 0 && 
-      order.axialLeft.length > 0 && order.cylMirrorRight.length > 0 && order.prismRight.length > 0 && order.axialRight.length > 0 && 
-      order.cylMirrorLeft.length > 0 && order.prismLeft.length > 0 && order.axialLeft.length > 0 && order.interpupillaryDistance.length > 0 && 
-      order.pointPupilRight.length > 0 && order.pointPupilLeft.length > 0){
-      setDisabled(false);
-    }else{
-      setDisabled(true);
-    }
-  }, [JSON.stringify(order)]);
+  // React.useEffect(() => {
+  //   if(order.name.length > 0 && order.mobile.length > 0 && 
+  //     order.axialLeft.length > 0 && order.cylMirrorRight.length > 0 && order.prismRight.length > 0 && order.axialRight.length > 0 && 
+  //     order.cylMirrorLeft.length > 0 && order.prismLeft.length > 0 && order.axialLeft.length > 0 && order.interpupillaryDistance.length > 0 && 
+  //     order.pointPupilRight.length > 0 && order.pointPupilLeft.length > 0){
+  //     setDisabled(false);
+  //   }else{
+  //     setDisabled(true);
+  //   }
+  // }, [JSON.stringify(order)]);
 
   const handleSubmit = () => {
     setLoading(true);
@@ -308,7 +308,7 @@ export default () => {
           <Grid item xs={1}></Grid>
           <Grid container item xs={9} className={classes.wrapper}>
             <Button
-              disabled={disabled || loading}
+              disabled={loading}
               className={classes.btn}
               color={"primary"}
               variant={"contained"}
