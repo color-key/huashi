@@ -171,7 +171,7 @@ export default () => {
           <Grid container item xs={6} justify={"flex-end"} alignItems={"center"}>
             {
               userId &&
-              <Avatar className={classes.avatar} src={'/face/'+userId+'/face1'} variant={"square"}/>
+              <Avatar className={classes.avatar} src={'/face/'+(order.id || userId)+'/face1'} variant={"square"}/>
             }
           </Grid>
           <Grid item xs={1}></Grid>
