@@ -57,6 +57,9 @@ jobs:
       - name: Setup knownhosts
         run: ssh-keyscan ${{ secrets.SERVER_HOST_NAME }} >> ~/.ssh/known_hosts
 
+      - name: Run SSH Command To Setup Environment
+        run: ssh root@${{ secrets.SERVER_HOST_NAME }} "cd /fay/service/huashi/nodejs/ && echo -e ${{ secrets.SERVER_NODE_ENV }} > .env"
+
       - name: Run SSH Command To build nodejs server
         run: ssh root@${{ secrets.SERVER_HOST_NAME }} "docker stop huashi-nodejs && docker rm huashi-nodejs && docker rmi huashi-nodejs && cd /fay/service/huashi/nodejs/ && docker build -t huashi-nodejs . && docker run --restart=always -d -p 3000:3000 -v /fay/nginx/html/huashi:/app/public --name huashi-nodejs huashi-nodejs"
       
