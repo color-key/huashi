@@ -46,8 +46,6 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-declare var wx: any;
-
 export default () => {
   const classes = useStyles();
   
