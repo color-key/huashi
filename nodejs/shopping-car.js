@@ -59,6 +59,7 @@ const addShoppingCar = async (data) => {
     "prism_right": data.prismRight,
     "remark": data.remark,
     "wx_user_id": openid,
+    "optometry_sheet": false,
   };
   const res = await query(sql, args);
   if(res.success){
@@ -87,6 +88,7 @@ const updShoppingCar = async (data) => {
     "prism_left": data.prismLeft,
     "prism_right": data.prismRight,
     "remark": data.remark,
+    "optometry_sheet": data.optometrySheet,
   };
   const res = await query(sql, args);
   return res;
