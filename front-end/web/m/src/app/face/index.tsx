@@ -50,7 +50,7 @@ export default () => {
   const [loading, setLoading] = React.useState(false);
 
   const handleButton = () => {
-    const _userId = getQueryString('userId');
+    const _userId = getQueryString('id');
     setLoading(true);
     postJson({path: BASE_URL+'/shopping-car/add', data: {...initOrder, openid: _userId}}).then(res => {
       console.log(res);
