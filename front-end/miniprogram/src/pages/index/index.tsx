@@ -9,7 +9,7 @@ import App from '@/app/home';
 export default () => {
 
   return (
-    <Layout footer>
+    <Layout>
       <App/>
     </Layout>
   );

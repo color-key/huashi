@@ -58,5 +58,6 @@ export interface OrderType{
   address: string|null,
   remark: string|null,
   logistics_no: string|null,
-  status: 'PENDING' | 'PASS' | 'REJECT' | 'SEND'
+  status: 'PENDING' | 'PASS' | 'REJECT' | 'SEND',
+  optometry_sheet: string,
 }

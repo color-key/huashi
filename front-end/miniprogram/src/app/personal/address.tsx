@@ -4,7 +4,7 @@ import { showLoading, hideLoading, request } from 'remax/wechat';
 import {APPC} from '../style';
 import Paper from '@/components/paper';
 import {chooseAddress} from '@/lib/wechat';
-import {SERVER_URL} from '@/env';
+import {SERVER_URL, OSS} from '@/env';
 import {login} from '@/lib/login';
 
 const CLASS_PREFIX = APPC+'-personal-address';
@@ -75,14 +75,15 @@ export default () => {
   }
 
   return (
-    <Paper className={CLASS_PREFIX+'-root'} onTap={handleGetAddress}>
+    <Paper className={CLASS_PREFIX+'-root'} style={{borderRadius: '15px'}} onTap={handleGetAddress}>
       <View className={CLASS_PREFIX+'-container'}>
         <View className={CLASS_PREFIX+'-container-left'}>
-          <Image src="/static/personal/location.png" className={CLASS_PREFIX+'-container-img'}/>
+          <Image src={OSS+'/mine/location@2x.png'} className={CLASS_PREFIX+'-container-img'}/>
           <Text>我的地址</Text>
         </View>
         <Image src="/static/arrow/right.png" className={CLASS_PREFIX+'-img'}/>
       </View>
+      <View className={CLASS_PREFIX+'-divider'}/>
       {
         address &&
         <View className={CLASS_PREFIX+'-address'}>
