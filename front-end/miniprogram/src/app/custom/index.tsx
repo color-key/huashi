@@ -5,7 +5,7 @@ import {login} from '@/lib/login';
 import './index.scss';
 import {APPC} from '../style';
 import AddPhotoIcon from '@/components/icons/add-photo';
-import {SERVER_URL} from '@/env';
+import {SERVER_URL, OSS} from '@/env';
 
 const CLASS_PREFIX = APPC+'-custom';
 
@@ -128,7 +128,7 @@ export default () => {
     <View className={CLASS_PREFIX+'-root'}>
       <View className={CLASS_PREFIX+'-container'}>
         <View className={CLASS_PREFIX+'-tip'}>
-          最小200*200像素，最大4096*4096像素，最大2MB 
+          上传照片
         </View>
         <View className={CLASS_PREFIX+'-front'} onTap={() => handleAddPhoto('faceFront')}>
           {
@@ -136,9 +136,9 @@ export default () => {
             <Image src={state.faceFront!} className={CLASS_PREFIX+'-img'}/>
             :
             <View className={CLASS_PREFIX+'-addPhoto'}>
-              <View><AddPhotoIcon/></View>
-              <View>上传人脸正脸照片</View>
-              <View>（必传）</View>
+              {/* <View><AddPhotoIcon/></View> */}
+              <View className={CLASS_PREFIX+'-addPhoto-front-text'}>上传正面照片</View>
+              {/* <View>（必传）</View> */}
             </View>
           }
         </View>
@@ -149,9 +149,8 @@ export default () => {
               <Image src={state.faceLeft!} className={CLASS_PREFIX+'-img'}/>
               :
               <View className={CLASS_PREFIX+'-addPhoto'}>
-                <View><AddPhotoIcon/></View>
-                <View>上传左侧侧脸照片</View>
-                <View>（选传）</View>
+                <View><Image src={OSS+'/custom/photo@2x.png'} className={CLASS_PREFIX+'-addPhoto-icon'}/></View>
+                <View className={CLASS_PREFIX+'-addPhoto-left-text'}>上传侧脸</View>
               </View>
             }
           </View>
@@ -161,9 +160,8 @@ export default () => {
               <Image src={state.faceRight!} className={CLASS_PREFIX+'-img'}/>
               :
               <View className={CLASS_PREFIX+'-addPhoto'}>
-                <View><AddPhotoIcon/></View>
-                <View>上传右侧侧脸照片</View>
-                <View>（选传）</View>
+                <View><Image src={OSS+'/custom/photo@2x.png'} className={CLASS_PREFIX+'-addPhoto-icon'}/></View>
+                <View className={CLASS_PREFIX+'-addPhoto-right-text'}>上传侧脸</View>
               </View>
             }
           </View>
@@ -186,7 +184,7 @@ export default () => {
             <View className={CLASS_PREFIX+'-side-right-btn'}></View>
           }
         </View>
-        <Button disabled={disabled} className={CLASS_PREFIX+'-btn'} onTap={handleUpload}>脸部照片提交</Button>
+        <Button disabled={disabled} className={CLASS_PREFIX+'-btn'} onTap={handleUpload}>照片提交</Button>
       </View>
     </View>
   );

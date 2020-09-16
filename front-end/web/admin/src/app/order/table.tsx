@@ -47,6 +47,10 @@ function Row(props: { row: OrderType, onAudit: (row: OrderType) => void, onSend:
     window.open(PATH_PREFIX+'/face?id='+id);
   }, []);
 
+  const handleLookOptometrySheet = React.useCallback((file: string) => {
+    window.open('/optometry-sheet/'+file);
+  }, []);
+
   const handleDownloadFace = React.useCallback((id: number, orderNo: string) => {
     postJson({path: BASE_URL+'/faceDownload', data: {id, filename: 'face-'+orderNo}}).then(res => {
       if(res.success){
@@ -82,6 +86,14 @@ function Row(props: { row: OrderType, onAudit: (row: OrderType) => void, onSend:
           <IconButton size="small" onClick={() => handleDownloadFace(row.id, row.order_no)}>
             <CloudDownloadIcon />
           </IconButton>
+        </TableCell>
+        <TableCell align="center">
+          {
+            row.optometry_sheet ?
+            <IconButton size="small" onClick={() => handleLookOptometrySheet(row.optometry_sheet)}>
+              <FindInPageIcon />
+            </IconButton>:''
+          }
         </TableCell>
         <TableCell align="center">
           <IconButton aria-label="expand row" size="small" onClick={() => setOpen({...initOpenState, logistics: !open.logistics})}>
@@ -266,6 +278,7 @@ export default ({type='ALL', userId, search}: Props) => {
               <TableCell>镜框型号</TableCell>
               <TableCell>光度信息</TableCell>
               <TableCell align="center">人脸模型</TableCell>
+              <TableCell align="center">验光单</TableCell>
               <TableCell align="center">物流信息</TableCell>
               <TableCell>备注</TableCell>
               <TableCell align="center">操作</TableCell>

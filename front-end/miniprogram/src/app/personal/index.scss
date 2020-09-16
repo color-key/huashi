@@ -3,11 +3,24 @@
 
 .#{$APPC}-personal {
   &-root {
-    width: 80%;
+    width: 100%;
     height: 100%;
-    margin-left: 10%;
-    // display: flex;
-    // justify-content: center;
+    position: absolute;
+    background-color: #F4F4F4;
+  }
+  &-bg{
+    background-color: #FFE015;
+    width: 100%;
+    height: 266px;
+    left: 0;
+    top: 0;
+    position: absolute;
+  }
+  &-container{
+    width: calc(100% - 48px);
+    height: 100%;
+    margin-left: 24px;
+    position: absolute;
   }
   &-login{
     &::after{
@@ -18,28 +31,50 @@
     display: flex;
     align-items: center;
     margin-top: 50px;
+    width: 100%;
+    height: 272px;
+    background: #ffffff;
+    border-radius: 15px;
+    position:relative;
+    &-title{
+      position: absolute;
+      top: 20px;
+      display: flex;
+      align-items: center;
+      font-size: 28px;
+      &-img{
+        width: 36px;
+        height: 36px;
+        margin-left: 26px;
+        margin-right: 26px;
+      }
+    }
   }
   &-avatar{
-    width: 150px;
-    height: 150px;
+    width: 120px;
+    height: 120px;
     border-radius: 50%;
+    margin-left: 60px;
+    margin-top: 20px;
   }
   &-userInfo{
     margin-left: 48px;
+    font-size: 32px;
+    margin-top: 20px;
   }
   &-address{
     &-root{
       margin-top: 50px;
       padding-top: 24px;
       padding-bottom: 24px;
-      padding-left: 24px;
+      padding-left: 40px;
     }
     &-img{
       width: 48px;
       height: 48px;
     }
     &-container{
-      width: calc(100% - 24px);
+      width: calc(100% - 40px);
       display: flex;
       justify-content: space-between;
       &-left{
@@ -51,6 +86,13 @@
         height: 32px;
         margin-right: 24px;
       }
+    }
+    &-divider{
+      width: calc(100% + 40px);
+      height: 1px;
+      background-color: #E7E7E7;
+      margin-left: -40px;
+      margin-top: 16px;
     }
     &-address{
       margin-top: 20px;
@@ -89,6 +131,8 @@
   //   }
   // }
   &-tip{
-    margin-top: 48px;
+    margin-top: 30px;
+    color: #FD7575;
+    text-align: center;
   }
 }

@@ -9,46 +9,57 @@
     justify-content: center;
   }
   &-container{
-    margin-top: 100px;
-    width: 70%;
-    font-size: 24px;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    margin-top: 50px;
+    // width: 70%;
+    // font-size: 24px;
   }
   &-tip{
-    font-size: 22px;
-    color: #666666;
+    font-size: 32px;
+    color: #000000;
     margin-bottom: 32px;
+    text-align: center;
   }
   &-img{
     width: 100%;
     height: 100%;
+    border-radius: 20px;
   }
   &-front{
-    border: 10px solid #796E63;
-    height: 500px;
+    // border: 10px solid #796E63;
+    width: 620px;
+    height: 400px;
     display: flex;
     justify-content: center;
-    align-items: center;
-
+    align-items: flex-end;
+    background: url(https://oss.faycz.com/huashi/custom/front-bg.png) no-repeat center;
   }
   &-side{
     display: flex;
     justify-content: space-between;
-    margin-top: 48px;
+    margin-top: 22px;
     &-left{
-      border: 10px solid #796E63;
-      height: 300px;
+      // border: 10px solid #796E63;
       display: flex;
       justify-content: center;
-      align-items: center;
-      width: calc(50% - 30px);
+      align-items: flex-end;
+      width: 312px;
+      height: 404px;
+      margin-right: 20px;
+      border-radius: 20px;
+      box-shadow: 0px 5px 5px -3px rgba(33, 33, 33, 0.16), 0px 3px 14px 2px rgba(33, 33, 33, 0.08), 0px 8px 10px 1px rgba(33, 33, 33, 0.1);
     }
     &-right{
-      border: 10px solid #796E63;
-      height: 300px;
+      // border: 10px solid #796E63;
       display: flex;
       justify-content: center;
-      align-items: center;
-      width: calc(50% - 30px);
+      align-items: flex-end;
+      width: 312px;
+      height: 404px;
+      border-radius: 20px;
+      box-shadow: 0px 5px 5px -3px rgba(33, 33, 33, 0.16), 0px 3px 14px 2px rgba(33, 33, 33, 0.08), 0px 8px 10px 1px rgba(33, 33, 33, 0.1);
     }
     &-btns{
       display: flex;
@@ -59,7 +70,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      width: calc(50% - 30px);
+      width: 312px;
       height: 60px;
       font-size: 24px;
       margin: 0 8px;
@@ -68,7 +79,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      width: calc(50% - 30px);
+      width: 312px;
       height: 60px;
       font-size: 24px;
       margin: 0 8px;
@@ -76,10 +87,35 @@
   }
   &-addPhoto{
     text-align: center;
+    margin-bottom: 50px;
+    &-front{
+      &-text{
+        font-size: 32px;
+        color: #FFFFFF;
+      }
+    }
+    &-left{
+      &-text{
+        font-size: 32px;
+      }
+    }
+    &-right{
+      &-text{
+        font-size: 32px;
+      }
+    }
+    &-icon{
+      width: 100px;
+      height: 100px;
+      margin-bottom: 100px;
+    }
   }
   &-btn{
-    background-color: #796E63;
-    color: #FFFFFF;
-    margin-top: 48px;
+    background-color: #FFE015;
+    margin-top: 84px;
+    width: 320px;
+    height: 100px;
+    padding-top: 6px;
+    margin-bottom: 50px;
   }
 }
