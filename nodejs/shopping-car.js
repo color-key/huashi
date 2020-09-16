@@ -152,7 +152,7 @@ const addOrderNumber = async (data) => {
   const address = data.address;
   const sqls = [];
   ids.map((id) => {
-    sqls.push('UPDATE '+mysqlTable+' SET order_no="'+shortid.generate()+'", address=\''+address+'", creation_datetime=\''+new Date()+'\' WHERE id='+id);
+    sqls.push('UPDATE '+mysqlTable+' SET order_no="'+shortid.generate()+'", address="'+address+'", creation_datetime="'+new Date()+'" WHERE id='+id);
   })
   const res = await multipleQuery(sqls.join(';'));
   return res;
