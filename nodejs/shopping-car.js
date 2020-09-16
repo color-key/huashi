@@ -94,6 +94,16 @@ const updShoppingCar = async (data) => {
   return res;
 }
 
+const updShoppingCarOptometrySheet = async (data) => {
+  const sql = 'UPDATE '+mysqlTable+' SET ?'+' WHERE id='+data.id;
+  const args = {
+    "update_datetime": new Date(),
+    "optometry_sheet": data.optometrySheet,
+  };
+  const res = await query(sql, args);
+  return res;
+}
+
 const getShoppingCar = async (openid) => {
   const sql = 'SELECT * FROM '+mysqlTable+' WHERE `wx_user_id` = ? and order_no is null order by creation_datetime desc';
   const args = [openid];
@@ -169,5 +179,6 @@ module.exports = {
   updShoppingCar,
   updOrderStatus,
   removeShoppingCar,
-  updOrderLogisticsNo
+  updOrderLogisticsNo,
+  updShoppingCarOptometrySheet
 }
