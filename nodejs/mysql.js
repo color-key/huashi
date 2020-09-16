@@ -33,6 +33,8 @@ const multipleQuery = (sql) => {
   return new Promise((resolve) => {
     try {
       connection.query(sql, (err, results, fields) => {
+        console.info('sql:', sql);
+        console.info('query:', results);
         resolve({success: err ? false : true, results, err});
         connection.end();
       });

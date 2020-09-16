@@ -20,7 +20,7 @@ const uploadFile = async (ctx) => {
     const reader = fs.createReadStream(file.path);
     const upStream = fs.createWriteStream(filePath);
     reader.pipe(upStream);
-    const shoppingCarRes = await updShoppingCarOptometrySheet({id: shoppingCarId, optometrySheet: true});
+    const shoppingCarRes = await updShoppingCarOptometrySheet({id: shoppingCarId, optometrySheet: shoppingCarId+'.'+type});
     return shoppingCarRes;
   }catch(error){
     return {success: false, error};
