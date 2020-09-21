@@ -4,7 +4,6 @@ import { chooseImage, request, showToast, showLoading, hideLoading, navigateTo, 
 import {login} from '@/lib/login';
 import './index.scss';
 import {APPC} from '../style';
-import AddPhotoIcon from '@/components/icons/add-photo';
 import {SERVER_URL, OSS} from '@/env';
 
 const CLASS_PREFIX = APPC+'-custom';
@@ -133,7 +132,7 @@ export default () => {
         <View className={CLASS_PREFIX+'-front'} onTap={() => handleAddPhoto('faceFront')}>
           {
             state.faceFront ?
-            <Image src={state.faceFront!} className={CLASS_PREFIX+'-img'}/>
+            <Image mode={'aspectFit'} src={state.faceFront!} className={CLASS_PREFIX+'-img'}/>
             :
             <View className={CLASS_PREFIX+'-addPhoto'}>
               {/* <View><AddPhotoIcon/></View> */}
@@ -146,7 +145,7 @@ export default () => {
           <View className={CLASS_PREFIX+'-side-left'} onTap={() => handleAddPhoto('faceLeft')}>
             {
               state.faceLeft ?
-              <Image src={state.faceLeft!} className={CLASS_PREFIX+'-img'}/>
+              <Image mode={'aspectFit'} src={state.faceLeft!} className={CLASS_PREFIX+'-img'}/>
               :
               <View className={CLASS_PREFIX+'-addPhoto'}>
                 <View><Image src={OSS+'/custom/photo@2x.png'} className={CLASS_PREFIX+'-addPhoto-icon'}/></View>
@@ -157,7 +156,7 @@ export default () => {
           <View className={CLASS_PREFIX+'-side-right'} onTap={() => handleAddPhoto('faceRight')}>
             {
               state.faceRight ?
-              <Image src={state.faceRight!} className={CLASS_PREFIX+'-img'}/>
+              <Image mode={'aspectFit'} src={state.faceRight!} className={CLASS_PREFIX+'-img'}/>
               :
               <View className={CLASS_PREFIX+'-addPhoto'}>
                 <View><Image src={OSS+'/custom/photo@2x.png'} className={CLASS_PREFIX+'-addPhoto-icon'}/></View>

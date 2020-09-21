@@ -26,6 +26,8 @@ export default ({data, selected=false, onTap, order=false, onEdit, onRemove}: an
     'SEND': '#01C50B',
   }
 
+  const [upload, setUpload] = React.useState(false);
+
   const handleEdit = (e: any) => {
     e.stopPropagation();
     onEdit(data.id, data.wx_user_id);
@@ -60,6 +62,7 @@ export default ({data, selected=false, onTap, order=false, onEdit, onRemove}: an
                 success (res){
                   const data: any = JSON.parse(res.data);
                   if(data.success){
+                    setUpload(true);
                     showToast({
                       title: "上传成功",
                       icon: "none"
@@ -110,8 +113,11 @@ export default ({data, selected=false, onTap, order=false, onEdit, onRemove}: an
         <View className={clsx(CLASS_PREFIX+'-eye', {[CLASS_PREFIX+'-eye-order']: order})}>
           <View>
             <View style={{display: 'flex'}}>
-              <View>{data.name.substr(0,1)}{data.gender===1?'女士':data.gender===0?'先生':''}</View>
-              <View style={{marginLeft: '20px'}}>手机尾号：{data.mobile}</View>
+              {
+                data.name.length>0 &&
+                <View style={{marginRight: '20px'}}>{data.name.substr(0,1)}{data.gender===1?'女士':data.gender===0?'先生':''}</View>
+              }
+              <View>手机尾号：{data.mobile}</View>
             </View>
             {/* <View>型号：{data.frame_model}</View> */}
             <View className={CLASS_PREFIX+'-info'}>光度信息：</View>
@@ -166,7 +172,7 @@ export default ({data, selected=false, onTap, order=false, onEdit, onRemove}: an
         order ||
         <View className={CLASS_PREFIX+'-btn-wrapper'}>
           <Button className={CLASS_PREFIX+'-btn'} onTap={handleEdit}>编辑</Button>
-          <Button className={CLASS_PREFIX+'-btn'} onTap={handleUpload}>上传验光单</Button>
+          <Button className={CLASS_PREFIX+'-btn'} onTap={handleUpload}>{(data.optometry_sheet||upload)?'已上传':'上传验光单'}</Button>
           <Button className={CLASS_PREFIX+'-btn'} onTap={handleDelete}>删除</Button>
         </View>
       }

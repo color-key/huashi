@@ -33,7 +33,7 @@ const data = [{
   text: 'BLACK/GRAY'
 }]
 
-export default () => {
+export default ({bindgetuserinfo}: any) => {
   const systemInfo = React.useRef(getSystemInfoSync());
   const {windowWidth} = systemInfo.current;
   const pixelRatio = 2;
@@ -42,12 +42,12 @@ export default () => {
 
   return (
     <View className={CLASS_PREFIX+'-customized'}>
-      <View className={CLASS_PREFIX+'-paper-container'}>
+      <View className={CLASS_PREFIX+'-paper-container'} style={{height: '310px'}}>
         <View className={CLASS_PREFIX+'-paper-container-show'}>
-          <Swiper className={CLASS_PREFIX+'-swiper'} autoplay interval={5000} duration={2000} previousMargin={'100px'} nextMargin={'100px'} circular>
+          <Swiper autoplay className={CLASS_PREFIX+'-swiper'} interval={5000} duration={2000} previousMargin={'100px'} nextMargin={'100px'} circular>
             {
               data.map((item, index) => {
-                return <SwiperItem key={index} img={item.img} text={item.text}/>
+                return <SwiperItem key={index} img={item.img} text={item.text} bindgetuserinfo={bindgetuserinfo}/>
               })
             }
           </Swiper>
