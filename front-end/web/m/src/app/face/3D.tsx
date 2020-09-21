@@ -5,7 +5,7 @@ import {MTLLoader} from '@/lib/three/examples/jsm/loaders/MTLLoader';
 import {OBJLoader} from '@/lib/three/examples/jsm/loaders/OBJLoader';
 import { OrbitControls } from '@/lib/three/examples/jsm/controls/OrbitControls';
 import {getQueryString} from '@fay-react/lib/router';
-import {PATH_PREFIX} from '@/env';
+// import {PATH_PREFIX} from '@/env';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -177,7 +177,7 @@ export default () => {
     <div className={classes.root}>
       <div className={classes.canvas} ref={ref}/>
       <div className={classes.loading} style={{display: loading?"block":"none"}}>
-        <img src={PATH_PREFIX + "/static/customized/face.gif"} width="100%" height="100%"/>
+        {/* <img src={PATH_PREFIX + "/static/customized/face.gif"} width="100%" height="100%"/> */}
       </div>
       <div className={classes.loadingProcess} style={{display: loading?"block":"none"}}>人脸模型加载中...{process}</div>
     </div>
