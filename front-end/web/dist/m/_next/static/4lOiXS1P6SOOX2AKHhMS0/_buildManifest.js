@@ -1,0 +1,1 @@
+self.__BUILD_MANIFEST = (function(a){return {"/m/face3D":["static\u002Fchunks\u002F1cae221f.4a813be37a5b4c63ca44.js",a],"/m/order":[a]}}("static\u002Fchunks\u002F1991562929b79ee7df6f1c10c762fe6d367a5437.64e7c870126976866057.js"));self.__BUILD_MANIFEST_CB && self.__BUILD_MANIFEST_CB()
