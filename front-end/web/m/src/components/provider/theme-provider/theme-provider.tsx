@@ -10,7 +10,7 @@ import React from 'react';
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: '#796E63',
+      main: '#FFE015',
       light: blue[50],
     },
     secondary: {
