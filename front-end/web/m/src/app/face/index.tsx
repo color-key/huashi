@@ -55,8 +55,20 @@ export default () => {
     postJson({path: BASE_URL+'/shopping-car/add', data: {...initOrder, openid: _userId}}).then(res => {
       console.log(res);
       if(res.success){
-        wx.miniProgram.switchTab({
-          url:'/pages/shopping-car/index',
+        // wx.miniProgram.switchTab({
+        //   url:'/pages/shopping-car/index',
+        //   success: function(){
+        //     console.log('success')
+        //   },
+        //   fail: function(){
+        //     console.log('fail');
+        //   },
+        //   complete:function(){
+        //     console.log('complete');
+        //   }
+        // });
+        wx.miniProgram.redirectTo({
+          url:'/pages/add-car-success/index',
           success: function(){
             console.log('success')
           },
