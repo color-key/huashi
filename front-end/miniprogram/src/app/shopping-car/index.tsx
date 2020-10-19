@@ -201,6 +201,7 @@ export default () => {
         </View>
       }
       <View className={CLASS_PREFIX+'-footer'}>
+        <View className={CLASS_PREFIX+'-footer-text'}>友情提示：每日16点前提交订单视为当日订单</View>
         <Button disabled={disabled} className={CLASS_PREFIX+'-btn'} onTap={handleSubmit}>提交</Button>
       </View>
     </View>

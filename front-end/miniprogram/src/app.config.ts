@@ -1,5 +1,5 @@
 const pages = [
-  'pages/index/index', 'pages/shopping-car/index', "pages/personal/index", "pages/custom/index",
+  'pages/index/index', 'pages/shopping-car/index', "pages/personal/index", "pages/custom/index", "pages/add-car-success/index",
   "pages/face3D/index", "pages/order-list/index", "pages/shopping-car/edit/index"
 ];
 const color = '#FFFFFF';
@@ -19,7 +19,7 @@ export const wechat: WechatAppConfig = {
       selectedIconPath: "/static/tab-bar/home@2x.png",
     },{
       "pagePath": "pages/shopping-car/index",
-      "text": "商城",
+      "text": "购物车",
       iconPath: "/static/tab-bar/car@2x.png",
       selectedIconPath: "/static/tab-bar/car@2x.png",
     },{

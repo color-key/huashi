@@ -1,0 +1,23 @@
+[
+  {
+    "path": "face",
+    "target": "https://huashi.faycz.com/face/",
+    "changeOrigin": true,
+    "secure": false,
+    "cookiePathRewrite": "/"
+  },
+  {
+    "path": "api",
+    "target": "https://huashi.faycz.com/",
+    "changeOrigin": true,
+    "secure": false,
+    "cookiePathRewrite": "/"
+  },
+  {
+    "path": "test-api",
+    "target": "http://localhost:3000/",
+    "changeOrigin": false,
+    "secure": false,
+    "cookiePathRewrite": "/"
+  }
+]
