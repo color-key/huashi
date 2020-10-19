@@ -41,8 +41,8 @@ export default ({bindgetuserinfo}: any) => {
   const customizedTitleTop = customizedImgHeight*(13/202);
 
   return (
-    <View className={CLASS_PREFIX+'-customized'}>
-      <View className={CLASS_PREFIX+'-paper-container'} style={{height: '310px'}}>
+    <View className={CLASS_PREFIX+'-customized'} style={{height: '30%'}}>
+      <View className={CLASS_PREFIX+'-paper-container'} style={{width: '100%', height: '100%'}}>
         <View className={CLASS_PREFIX+'-paper-container-show'}>
           <Swiper autoplay className={CLASS_PREFIX+'-swiper'} interval={5000} duration={2000} previousMargin={'100px'} nextMargin={'100px'} circular>
             {

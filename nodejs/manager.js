@@ -8,6 +8,10 @@ const mysqlTable = "manager";
 
 const addManager = async (data) => {
   data.token = shortid.generate();
+  const hash = crypto.createHash('sha256');
+  hash.update(data.password);
+  const pwd = hash.digest('hex');
+  data.password = pwd;
   const sql = 'INSERT INTO '+mysqlTable+' SET ?';
   const args = data;
   const res = await query(sql, args);
@@ -15,6 +19,10 @@ const addManager = async (data) => {
 }
 
 const updPassword = async (data) => {
+  const hash = crypto.createHash('sha256');
+  hash.update(data.password);
+  const pwd = hash.digest('hex');
+  data.password = pwd;
   const sql = 'UPDATE '+mysqlTable+' SET password="'+data.password+'" WHERE id="'+data.id+'" and password="'+data.oldPassword+'"';
   const res = await query(sql);
   return res;
@@ -24,7 +32,6 @@ const login = async (data) => {
   const hash = crypto.createHash('sha256');
   hash.update(data.password);
   const pwd = hash.digest('hex');
-  console.log(pwd);
   const sql = 'SELECT id,username,creation_datetime,token FROM '+mysqlTable+' WHERE `username` = ? and `password` = ?';
   const args = [data.username, pwd];
   const res = await query(sql, args);

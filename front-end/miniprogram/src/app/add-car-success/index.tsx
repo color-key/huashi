@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image } from 'remax/one';
+import { View, Image, switchTab } from 'remax/one';
 import './index.scss';
 import {APPC} from '../style';
 import {OSS} from '@/env';
@@ -7,6 +7,12 @@ import {OSS} from '@/env';
 const CLASS_PREFIX = APPC+'-custom';
 
 export default () => {
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      switchTab({url: "/pages/index/index"});
+    }, 2000);
+  }, [])
 
   return (
     <View className={CLASS_PREFIX+'-root'}>

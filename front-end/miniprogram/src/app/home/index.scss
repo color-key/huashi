@@ -1,6 +1,12 @@
 @import '../style/index.scss';
 @import '../../components/theme/default.scss';
 
+page{
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
 .#{$APPC}-home {
   &-root {
     width: 100%;
@@ -9,10 +15,15 @@
   &-banner{
     width: 100%;
     position: relative;
-    background: #F1F1F1;
+    background: #F7F3F0;
+    display: flex;
+    align-items: center;
     &-img{
-      width: 100%;
-      height: 100%;
+      position: absolute;
+      width: 375px;
+      height: 375px;
+      right: 0;
+      bottom: 0;
     }
     &-text{
       position: absolute;
@@ -29,8 +40,10 @@
     }
   }
   &-swiper{
-    padding-top: 94px;
-    padding-bottom: 14px;
+    height: 65%;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
   }
   &-swiperItem{
     &-card{
@@ -91,6 +104,8 @@
     &-container{
       &-show{
         position: relative;
+        height: 100%;
+        width: 100%;
         &-img{
           width: 100%;
           height: 100%;
