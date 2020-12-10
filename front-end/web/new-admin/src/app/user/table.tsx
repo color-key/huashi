@@ -84,10 +84,7 @@ function Row(props: { row: UserType, onAudit: (row: UserType) => void}) {
           </IconButton>
         </TableCell>
         <TableCell align="center">
-          {
-            row.status === 'PENDING' &&
-            <Button color={"primary"} onClick={() => props.onAudit(row)}>审核</Button>
-          }
+          <Button color={"primary"} onClick={() => props.onAudit(row)}>审核</Button>
         </TableCell>
       </TableRow>
       <TableRow>
