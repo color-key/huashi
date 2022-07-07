@@ -14,7 +14,7 @@
     "koa-bodyparser": "^4.3.0",
     "koa-router": "^9.0.1",
     "koa2-request": "^1.0.4",
-    "moment": "^2.27.0",
+    "moment": "^2.29.4",
     "mysql": "^2.18.1",
     "obj2gltf": "^3.1.0",
     "shortid": "^2.2.15"
