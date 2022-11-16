@@ -24,7 +24,7 @@
     "react-swipeable-views": "^0.13.9"
   },
   "devDependencies": {
-    "@fay-next/config": "0.0.1-alpha.6",
+    "@fay-next/config": "0.0.1-alpha.18",
     "@types/react-swipeable-views": "^0.13.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
